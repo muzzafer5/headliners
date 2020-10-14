@@ -1,12 +1,22 @@
+const app = require('./route')
+const mongoose = require('mongoose')
+const keys = require("./config/keys")
 
-const express = require('express')
-const app = express()
-const port = 5000
+const db = keys.mongoURI;
+const port = keys.PORT
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+mongoose.connect( db, { 
+     useNewUrlParser: true, 
+     useUnifiedTopology: true,
+     useFindAndModify: false,
+     useCreateIndex: true})
+ .then(()=>console.log('MongoDB succesfully Connected'))
+ .catch(err => console.log(err))
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
-})
+
+const server = app.listen(port, function() {
+    console.log('Server is running on port: ' + port)
+   });
+
+module.exports = server;
+                            
