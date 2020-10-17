@@ -40,12 +40,10 @@ const App = ({ navigation }) => {
       <Stack.Navigator
         headerMode="none"
       >
-
         <Stack.Screen name="loading" component={LoadingScreen} />
         <Stack.Screen name="home" component={HomeSceen} />
         <Stack.Screen name="login" component={LoginScreen} />
         <Stack.Screen name="signup" component={SignupScreen} />
-
 
       </Stack.Navigator>
     </NavigationNativeContainer>
