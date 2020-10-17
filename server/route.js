@@ -11,12 +11,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json({limit: "50mb"}));
 
 const auth = require("./components/auth/routes/auth")
-const image = require("./components/image/routes/image")
 
 app.use("/auth", auth)
-app.use("/image",image)
 
-app.get('/', (req, res) => {res.send('Photos')})
+app.get('/', (req, res) => {res.send('BTP')})
 module.exports = app
 
 //export default app

@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { PureComponent } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Landing from './components/auth/landing'
+import Login from './components/auth/login'
+import Signup from './components/auth/signup'
+import Home from './components/home/home'
+
+class App extends PureComponent {
+  render() {
+    return (
+      <Router>
+        <div className="App">
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/auth/login" component={Login} />
+          <Route exact path="/auth/signup" component={Signup} />
+          <Route exact path="/home/home" component={Home} />
+        </div>
+      </Router>
+    )
+  }
 }
-
 export default App;
