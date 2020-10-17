@@ -34,7 +34,6 @@ const App = ({ navigation }) => {
     detectLogin()
   }, [])
 
-
   return (
     <NavigationNativeContainer>
       <Stack.Navigator
