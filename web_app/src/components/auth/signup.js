@@ -8,6 +8,7 @@ class Signup extends Component {
     this.state = {
       username: '',
       password: '',
+      country : '',
       errors: {}
     }
     this.onChange = this.onChange.bind(this)
@@ -22,7 +23,9 @@ class Signup extends Component {
     const newUser = {
       username: this.state.username,
       password: this.state.password,
+      country : this.state.country
     }
+    console.log(newUser)
     signup(newUser).then(res => {
       if (res) {
         this.props.history.push(`/auth/login`)
@@ -57,7 +60,7 @@ class Signup extends Component {
           </div>
           <div className="form-group my-3 mx-3">
             <label htmlFor="country">Country</label>
-            <select id="country" name="country" class="form-control">
+            <select className="form-control" name="country" value={this.state.country} onChange={this.onChange}>
               <option value = '' disabled> Select..</option>
               <option value="Afghanistan">Afghanistan</option>
               <option value="Åland Islands">Åland Islands</option>
