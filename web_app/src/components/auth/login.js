@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { login } from './ConnectServer'
 import { Link } from 'react-router-dom'
+import auth from '../../static/news2.jpg' 
 
 class Login extends Component {
   constructor() {
@@ -27,22 +28,34 @@ class Login extends Component {
 
     login(user).then(res => {
       if (res) {
-        localStorage.setItem('usertoken', res.token)
+        localStorage.setItem('usertoken', res)
         this.props.history.push('/home')
       }
     })
   }
 
   render() {
+    var sectionStyle = {
+      width: "100%",
+      height: "750px",
+      backgroundImage: "url(" + auth + ")",
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      opacity: "1"
+    };
+
     return (
+      <div style = {sectionStyle}>
       <div className="login "
         style={{
           border: "2px solid grey",
           position: "absolute",
           top: "25%",
-          width: "35%",
-          left: "30%",
-          borderRadius: "20px"
+          width: "36%",
+          left: "32%",
+          borderRadius: "20px",
+          backgroundColor : "white"
         }}>
         <form validate="true" onSubmit={this.onSubmit}>
           <h1 className="h2 text-center py-2" style={{ borderBottom: "1px solid grey" }}>Login</h1>
@@ -70,16 +83,18 @@ class Login extends Component {
               onChange={this.onChange}
             />
           </div>
+
           <div className="my-3">
             <button
               type="submit"
-              className="btn btn-primary mx-3 px-5"
+              className="btn btn-primary ml-3 mr-5   px-5"
             >
               Login
               </button>
             <Link to={'/auth/signup'} >Don't have an account?</Link>
           </div>
         </form>
+      </div>
       </div>
     )
   }

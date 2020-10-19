@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { signup } from './ConnectServer'
 import { Link } from 'react-router-dom'
+import auth from '../../static/news2.jpg' 
 
 class Signup extends Component {
   constructor() {
@@ -9,6 +10,7 @@ class Signup extends Component {
       username: '',
       password: '',
       country : '',
+      profession : '',
       errors: {}
     }
     this.onChange = this.onChange.bind(this)
@@ -23,7 +25,8 @@ class Signup extends Component {
     const newUser = {
       username: this.state.username,
       password: this.state.password,
-      country : this.state.country
+      country : this.state.country,
+      profession : this.state.profession
     }
     console.log(newUser)
     signup(newUser).then(res => {
@@ -34,15 +37,27 @@ class Signup extends Component {
   }
 
   render() {
+    var sectionStyle = {
+      width: "100%",
+      height: "750px",
+      backgroundImage: "url(" + auth + ")",
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      opacity: "1"
+    };
+
     return (
+      <div style = {sectionStyle}>
       <div className="signup "
         style={{
           border: "2px solid grey",
           position: "absolute",
-          top: "25%",
-          width: "35%",
-          left: "30%",
-          borderRadius: "20px"
+          top: "20%",
+          width: "36%",
+          left: "32%",
+          borderRadius: "20px",
+          backgroundColor: "white"
         }}>
         <form validate="true" onSubmit={this.onSubmit}>
           <h1 className="h2 text-center py-2" style={{ borderBottom: "1px solid grey" }}>Signup</h1>
@@ -59,9 +74,36 @@ class Signup extends Component {
             />
           </div>
           <div className="form-group my-3 mx-3">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              name="password"
+              placeholder="Password"
+              required
+              value={this.state.password}
+              onChange={this.onChange}
+            />
+          </div>
+          <div className="form-group my-3 mx-3">
+            <label htmlFor="profession">Profession</label>
+              <select className="form-control" name="profession" required value={this.state.profession} onChange={this.onChange} >
+              <option value = '' disabled>choose...</option>
+              <option value='Student – pre-college'>Student – pre-college</option>
+              <option value='Student – undergraduate'>Student – undergraduate</option>
+              <option value='Student – graduate/doctorate'>Student – graduate/doctorate</option>
+              <option value='Working in Customer Service'>Working in Customer Service</option>
+              <option value='Working in Technology'>Working in Technology</option>
+              <option value='Working in Medical or Healthcare'>Working in Medical or Healthcare</option>
+              <option value='Working in Retail, Sales, Marketing, Manufacturing'>Working in Retail, Sales, Marketing, Manufacturing</option>
+              <option value="Working in Education or Publishing">Working in Education or Publishing</option>
+              <option value="None of the above">None of the above</option>
+            </select>
+          </div>
+          <div className="form-group my-3 mx-3">
             <label htmlFor="country">Country</label>
-            <select className="form-control" name="country" value={this.state.country} onChange={this.onChange}>
-              <option value = '' disabled> Select..</option>
+              <select className="form-control" name="country" required value={this.state.country} onChange={this.onChange} >
+              <option value = '' disabled> choose...</option>
               <option value="Afghanistan">Afghanistan</option>
               <option value="Åland Islands">Åland Islands</option>
               <option value="Albania">Albania</option>
@@ -308,29 +350,21 @@ class Signup extends Component {
               <option value="Zimbabwe">Zimbabwe</option>
             </select>
           </div>
-          <div className="form-group my-3 mx-3">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              placeholder="Password"
-              required
-              value={this.state.password}
-              onChange={this.onChange}
-            />
-          </div>
-          
+            <div className="form-check my-3 mx-3">
+              <input type="checkbox" className="form-check-input" id="exampleCheck1" required></input>
+              <label className="form-check-label" for="exampleCheck1" style={{ fontSize: "12px", color: "red"  }}>By clicking, you are voluntarily participating in this game. You are also aware and authorizing that data gathered from this app will be analyzed for research purposes to understand more about human processes with social media and news headlines. Please review your cellular data usage to manage any related fees related to this app.</label>
+            </div>
           <div className="mb-3">
             <button
               type="submit"
-              className="btn btn-primary mx-3 px-5"
+              className="btn btn-primary ml-3 mr-5 px-5"
             >
               Signup
-                </button>
+            </button>
             <Link to={'/auth/login'} >Already have an account?</Link>
           </div>
         </form>
+      </div>
       </div>
     )
   }

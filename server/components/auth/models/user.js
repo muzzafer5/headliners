@@ -11,6 +11,17 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    profession : {
+        type : String,
+        required :true
+    },
+    country : {
+        type : String,
+        required : true
+    },
+    location : {
+        type: String
+    },
     created_at: {
         type: Date,
         default: Date.now

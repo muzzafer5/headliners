@@ -11,8 +11,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json({limit: "50mb"}));
 
 const auth = require("./components/auth/routes/auth")
+const news = require("./components/news/routes/news")
 
 app.use("/auth", auth)
+app.use("/news", news)
 
 app.get('/', (req, res) => {res.send('BTP')})
 module.exports = app

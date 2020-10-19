@@ -4,9 +4,10 @@ const User = require('../models/user')
 function Signup(req,res) {
   const userData = {
     username: req.body.username,
-    password: req.body.password
+    password: req.body.password,
+    profession : req.body.profession,
+    country : req.body.country
   }
-
   User.findOne({
     username: req.body.username
   }) 
