@@ -25,6 +25,7 @@ class Signup extends Component {
     const newUser = {
       username: this.state.username,
       password: this.state.password,
+      gender: this.state.gender,
       country : this.state.country,
       profession : this.state.profession
     }
@@ -84,6 +85,14 @@ class Signup extends Component {
               value={this.state.password}
               onChange={this.onChange}
             />
+          </div>
+          <div className="form-group my-3 mx-3">
+            <label htmlFor="profession">Gender</label>
+              <select className="form-control" name="profession" required value={this.state.gender} onChange={this.onChange} >
+              <option value = '' disabled>Choose...</option>
+              <option value='Female'>Female</option>
+              <option value='Male'>Male</option>
+            </select>
           </div>
           <div className="form-group my-3 mx-3">
             <label htmlFor="profession">Profession</label>
