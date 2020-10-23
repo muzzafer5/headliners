@@ -9,6 +9,7 @@ class Signup extends Component {
     this.state = {
       username: '',
       password: '',
+      gender: '',
       country : '',
       profession : '',
       errors: {}
@@ -87,8 +88,8 @@ class Signup extends Component {
             />
           </div>
           <div className="form-group my-3 mx-3">
-            <label htmlFor="profession">Gender</label>
-              <select className="form-control" name="profession" required value={this.state.gender} onChange={this.onChange} >
+            <label htmlFor="gender">Gender</label>
+              <select className="form-control" name="gender" required value={this.state.gender} onChange={this.onChange} >
               <option value = '' disabled>Choose...</option>
               <option value='Female'>Female</option>
               <option value='Male'>Male</option>
