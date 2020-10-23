@@ -23,6 +23,10 @@ const UserSchema = new Schema({
         type : String,
         required : true
     },
+    cultural_values : {
+        type : Array,
+        required : true
+    },
     location : {
         type: String
     },

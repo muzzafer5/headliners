@@ -7,6 +7,7 @@ function Signup(req,res) {
     password: req.body.password,
     gender: req.body.gender,
     profession : req.body.profession,
+    cultural_values : req.body.cultural_values,
     country : req.body.country
   }
   User.findOne({
