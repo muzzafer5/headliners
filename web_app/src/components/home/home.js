@@ -12,24 +12,19 @@ class Home extends Component {
         if (!localStorage.usertoken)
             this.props.history.push(`/login`)
     }
-    gameMode(){
+    gameMode() {
         this.props.history.push('/game')
     }
     render() {
         return (
-            <div className="home" >
-                <button
-                    className="btn btn-primary  px-5 "
-                    style={{
-                        position: "absolute",
-                        top: "30%",
-                        left : "40%",
-                        fontSize : "30px"
-                    }}
-                    onClick = {this.gameMode}
-                >
-                   Click to enter in game
-                </button>
+            <div style={{ width: "100vw", minHeight: "90vh" }} className="container-fluid">
+                <div className="d-flex flex-column justify-content-center" style={{ minHeight: "90vh" }}>
+                    <div className="d-flex flex-row justify-content-center">
+                        <button
+                            className="btn btn-primary px-5"
+                            onClick={this.gameMode}>Start</button>
+                    </div>
+                </div>
             </div>
         )
     }

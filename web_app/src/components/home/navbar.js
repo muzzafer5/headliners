@@ -18,7 +18,11 @@ class Header extends Component {
 
     render() {
         return (
-            <Navbar className="px-5 navbar-dark bg-dark" collapseOnSelect expand="lg">
+            <Navbar 
+                className="px-5 navbar-dark bg-dark" 
+                collapseOnSelect 
+                expand="lg"
+                style={{height:"10vh"}}>
                 <Navbar.Brand href="/">Headliner</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
