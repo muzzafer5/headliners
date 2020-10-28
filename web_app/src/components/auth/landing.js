@@ -10,7 +10,7 @@ class Landing extends Component {
   render() {
     var sectionStyle = {
       width: "100%",
-      height: "750px",
+      height: "100vh",
       backgroundImage: "url(" + landing_pic + ")",
       backgroundPosition: 'center',
       backgroundSize: 'cover',
@@ -34,7 +34,7 @@ class Landing extends Component {
                   fontWeight: "500"
                 }
               } >
-                Outsourcing App </span>
+                Headliners </span>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav" >

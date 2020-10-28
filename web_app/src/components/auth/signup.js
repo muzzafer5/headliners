@@ -2,8 +2,29 @@ import React, { Component } from 'react'
 import { signup } from './ConnectServer'
 import { Link } from 'react-router-dom'
 import auth from '../../static/news2.jpg' 
+import MultiSelect from 'react-multi-select-component'
 
-class Signup extends Component {
+const cultural_values_options = [
+  { value: 'Importance of Individual Goals', label: 'Importance of Individual Goals' },
+  { value: 'Importance of Group Goals', label: 'Importance of Group Goals' },
+  { value: 'Hierarchical Decision Making', label: 'Hierarchical Decision Making' },
+  { value: 'Collaborative Decision Making', label: 'Collaborative Decision Making' },
+  { value: 'Structured Rules', label: 'Structured Rules' },
+  { value: 'Being Flexible in situations', label: 'Being Flexible in situations' },
+  { value: 'Focus on Task Completion', label: 'Focus on Task Completion' },
+  { value: 'Focus on Relationships', label: 'Focus on Relationships' },
+  { value: 'Place focus on long-term benefits', label: 'Place focus on long-term benefits' },
+  { value: 'Being quick in planning', label: 'Being quick in planning' },
+  { value: 'Indirect Communication', label: 'Indirect Communication' },
+  { value: 'Explicit communication', label: 'Explicit communication' },
+  { value: 'Separate work and personal activities', label: 'Separate work and personal activities' },
+  { value: 'A blending of work life and personal life', label: 'A blending of work life and personal life' },
+  { value: 'Cultivate nurturing behaviors', label: 'Cultivate nurturing behaviors' },
+  { value: 'Seek achievement behaviors', label: 'Seek achievement behaviors' }
+];
+
+
+class Signup extends Component { 
   constructor() {
     super()
     this.state = {
@@ -11,6 +32,9 @@ class Signup extends Component {
       password: '',
       country : '',
       profession : '',
+      gender : '',
+      age : '',
+      cultural_values: null,
       errors: {}
     }
     this.onChange = this.onChange.bind(this)
@@ -26,20 +50,26 @@ class Signup extends Component {
       username: this.state.username,
       password: this.state.password,
       country : this.state.country,
-      profession : this.state.profession
+      profession : this.state.profession,
+      gender : this.state.gender,
+      age : this.state.age,
+      cultural_values: this.state.cultural_values
     }
-    console.log(newUser)
-    signup(newUser).then(res => {
-      if (res) {
-        this.props.history.push(`/auth/login`)
-      }
-    })
+    if (this.state.cultural_values === null || this.state.cultural_values.length === 0 )
+      alert("Choose at least one cultural values")
+    else{
+      signup(newUser).then(res => {
+        if (res) {
+          this.props.history.push(`/auth/login`)
+        }
+      })
+    }
   }
 
   render() {
     var sectionStyle = {
       width: "100%",
-      height: "750px",
+      height: "1000px",
       backgroundImage: "url(" + auth + ")",
       backgroundPosition: 'center',
       backgroundSize: 'cover',
@@ -53,57 +83,61 @@ class Signup extends Component {
         style={{
           border: "2px solid grey",
           position: "absolute",
-          top: "20%",
-          width: "36%",
-          left: "32%",
+          top: "10%",
+          width: "44%",
+          left: "28%",
           borderRadius: "20px",
           backgroundColor: "white"
         }}>
         <form validate="true" onSubmit={this.onSubmit}>
           <h1 className="h2 text-center py-2" style={{ borderBottom: "1px solid grey" }}>Signup</h1>
           <div className="form-group my-3 mx-3">
-            <label htmlFor="name">User name</label>
+            <label>Username*</label>
             <input
               type="text"
               className="form-control"
               name="username"
               required
-              placeholder="Enter the User name"
               value={this.state.username}
               onChange={this.onChange}
             />
           </div>
           <div className="form-group my-3 mx-3">
-            <label htmlFor="password">Password</label>
+            <label >Password*</label>
             <input
               type="password"
               className="form-control"
               name="password"
-              placeholder="Password"
               required
               value={this.state.password}
               onChange={this.onChange}
             />
           </div>
+            <div className="form-group my-3 mx-3">
+              <label>Age*</label>
+              <input
+                type="number"
+                className="form-control"
+                name="age"
+                required
+                value={this.state.age}
+                min="10" 
+                max="130"
+                onChange={this.onChange}
+              />
+            </div>
+            <div className="form-group my-3 mx-3">
+              <label>Gender*</label>
+              <select className="form-control" name="gender" required value={this.state.gender} onChange={this.onChange} >
+                <option value='' disabled></option>
+                <option value='Male'>Male</option>
+                <option value='Female'>Female</option>
+              </select>
+            </div>
           <div className="form-group my-3 mx-3">
-            <label htmlFor="profession">Profession</label>
-              <select className="form-control" name="profession" required value={this.state.profession} onChange={this.onChange} >
-              <option value = '' disabled>choose...</option>
-              <option value='Student – pre-college'>Student – pre-college</option>
-              <option value='Student – undergraduate'>Student – undergraduate</option>
-              <option value='Student – graduate/doctorate'>Student – graduate/doctorate</option>
-              <option value='Working in Customer Service'>Working in Customer Service</option>
-              <option value='Working in Technology'>Working in Technology</option>
-              <option value='Working in Medical or Healthcare'>Working in Medical or Healthcare</option>
-              <option value='Working in Retail, Sales, Marketing, Manufacturing'>Working in Retail, Sales, Marketing, Manufacturing</option>
-              <option value="Working in Education or Publishing">Working in Education or Publishing</option>
-              <option value="None of the above">None of the above</option>
-            </select>
-          </div>
-          <div className="form-group my-3 mx-3">
-            <label htmlFor="country">Country</label>
+            <label >Country*</label>
               <select className="form-control" name="country" required value={this.state.country} onChange={this.onChange} >
-              <option value = '' disabled> choose...</option>
+              <option value = '' disabled> </option>
               <option value="Afghanistan">Afghanistan</option>
               <option value="Åland Islands">Åland Islands</option>
               <option value="Albania">Albania</option>
@@ -350,9 +384,33 @@ class Signup extends Component {
               <option value="Zimbabwe">Zimbabwe</option>
             </select>
           </div>
+            <div className="form-group my-3 mx-3">
+              <label >Profession*</label>
+              <select className="form-control" name="profession" required value={this.state.profession} onChange={this.onChange} >
+                <option value='' disabled></option>
+                <option value='Student – pre-college'>Student – pre-college</option>
+                <option value='Student – undergraduate'>Student – undergraduate</option>
+                <option value='Student – graduate/doctorate'>Student – graduate/doctorate</option>
+                <option value='Working in Customer Service'>Working in Customer Service</option>
+                <option value='Working in Technology'>Working in Technology</option>
+                <option value='Working in Medical or Healthcare'>Working in Medical or Healthcare</option>
+                <option value='Working in Retail, Sales, Marketing, Manufacturing'>Working in Retail, Sales, Marketing, Manufacturing</option>
+                <option value="Working in Education or Publishing">Working in Education or Publishing</option>
+                <option value="None of the above">None of the above</option>
+              </select>
+            </div>
+            <div className="form-group my-3 mx-3">
+              <label>Cultral values*</label>
+              <MultiSelect
+                required
+                value={this.state.cultural_values}
+                onChange={cultural_values => this.setState({ cultural_values })}
+                options={cultural_values_options}
+              />
+            </div>
             <div className="form-check my-3 mx-3">
               <input type="checkbox" className="form-check-input" id="exampleCheck1" required></input>
-              <label className="form-check-label" for="exampleCheck1" style={{ fontSize: "12px", color: "red"  }}>By clicking, you are voluntarily participating in this game. You are also aware and authorizing that data gathered from this app will be analyzed for research purposes to understand more about human processes with social media and news headlines. Please review your cellular data usage to manage any related fees related to this app.</label>
+              <label className="form-check-label" style={{ fontSize: "12px", color: "red"  }}>By clicking, you are voluntarily participating in this game. You are also aware and authorizing that data gathered from this app will be analyzed for research purposes to understand more about human processes with social media and news headlines. Please review your cellular data usage to manage any related fees related to this app.</label>
             </div>
           <div className="mb-3">
             <button

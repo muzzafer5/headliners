@@ -1,7 +1,6 @@
 const app = require('./route')
 const mongoose = require('mongoose')
 const keys = require("./config/keys")
-
 const db = keys.mongoURI;
 const port = keys.PORT
 

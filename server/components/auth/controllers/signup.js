@@ -6,7 +6,10 @@ function Signup(req,res) {
     username: req.body.username,
     password: req.body.password,
     profession : req.body.profession,
-    country : req.body.country
+    country : req.body.country,
+    age : req.body.age,
+    gender : req.body.gender,    
+    cultural_values: req.body.cultural_values
   }
   User.findOne({
     username: req.body.username
@@ -17,7 +20,7 @@ function Signup(req,res) {
           userData.password = hash
             User.create(userData)
             .then(user => {
-              res.send("Registered")
+              res.json("Registered")
             })
             .catch(err => {
               return res.status(422).json({error:err})

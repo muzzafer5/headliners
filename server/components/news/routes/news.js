@@ -9,5 +9,4 @@ router
     .route('/fetch')
     .post(RequireLogin,(req, res) => Fetch(req, res))
 
-
 module.exports = router

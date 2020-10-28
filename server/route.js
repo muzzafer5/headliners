@@ -12,11 +12,15 @@ app.use(bodyParser.json({limit: "50mb"}));
 
 const auth = require("./components/auth/routes/auth")
 const news = require("./components/news/routes/news")
+const admin = require("./components/admin/routes/admin")
 
 app.use("/auth", auth)
 app.use("/news", news)
+app.use("/admin", admin)
 
-app.get('/', (req, res) => {res.send('BTP')})
+app.get('/', (req, res) => {
+  console.log("BTP")
+})
 module.exports = app
 
 //export default app

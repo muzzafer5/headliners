@@ -21,7 +21,7 @@ class Header extends Component {
     render() {
        
         return (
-            <Navbar className="px-3" collapseOnSelect expand="lg"
+            <Navbar className="px-4" collapseOnSelect expand="lg"
                 style={{
                     borderBottom: "1px solid #e6f7dc",
                 }}
@@ -34,15 +34,19 @@ class Header extends Component {
                             fontWeight: "500"
                         }}
                     >
-                        Outsourcing App
+                        Headliners
             </span>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto"></Nav>
                     <Nav>
-                        <Nav.Link eventKey={1} >Profile</Nav.Link>
-                        <Nav.Link eventKey={2} onClick={this.logOut} className="ml-3">Logout</Nav.Link>
+                        <Nav.Link eventKey={1} onClick={this.logOut} className="ml-3" style={{
+                            fontSize: "17px",
+                            fontWeight: "600"
+                        }}>
+                            Logout
+                        </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

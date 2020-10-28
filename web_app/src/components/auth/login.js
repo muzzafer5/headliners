@@ -37,7 +37,7 @@ class Login extends Component {
   render() {
     var sectionStyle = {
       width: "100%",
-      height: "750px",
+      height: "100vh",
       backgroundImage: "url(" + auth + ")",
       backgroundPosition: 'center',
       backgroundSize: 'cover',
@@ -60,7 +60,7 @@ class Login extends Component {
         <form validate="true" onSubmit={this.onSubmit}>
           <h1 className="h2 text-center py-2" style={{ borderBottom: "1px solid grey" }}>Login</h1>
           <div className="form-group my-3 mx-3">
-            <label htmlFor="email">User name</label>
+            <label >User name</label>
             <input
               type="text"
               className="form-control"
@@ -72,7 +72,7 @@ class Login extends Component {
             />
           </div>
           <div className="form-group my-3 mx-3">
-            <label htmlFor="password">Password</label>
+            <label >Password</label>
             <input
               type="password"
               className="form-control"
