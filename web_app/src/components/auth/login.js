@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { login } from './ConnectServer'
 import { Link } from 'react-router-dom'
-import auth from '../../static/news2.jpg' 
+import auth from '../../images/background.jpg'
 
 class Login extends Component {
   constructor() {
@@ -46,55 +46,55 @@ class Login extends Component {
     };
 
     return (
-      <div style = {sectionStyle}>
-      <div className="login "
-        style={{
-          border: "2px solid grey",
-          position: "absolute",
-          top: "25%",
-          width: "36%",
-          left: "32%",
-          borderRadius: "20px",
-          backgroundColor : "white"
-        }}>
-        <form validate="true" onSubmit={this.onSubmit}>
-          <h1 className="h2 text-center py-2" style={{ borderBottom: "1px solid grey" }}>Login</h1>
-          <div className="form-group my-3 mx-3">
-            <label >User name</label>
-            <input
-              type="text"
-              className="form-control"
-              name="username"
-              placeholder="Enter the user name"
-              required
-              value={this.state.username}
-              onChange={this.onChange}
-            />
-          </div>
-          <div className="form-group my-3 mx-3">
-            <label >Password</label>
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              placeholder="Password"
-              required
-              value={this.state.password}
-              onChange={this.onChange}
-            />
-          </div>
+      <div style={sectionStyle}>
+        <div className="login "
+          style={{
+            border: "2px solid grey",
+            position: "absolute",
+            top: "25%",
+            width: "36%",
+            left: "32%",
+            borderRadius: "20px",
+            backgroundColor: "white"
+          }}>
+          <form validate="true" onSubmit={this.onSubmit}>
+            <h1 className="h2 text-center py-2" style={{ borderBottom: "1px solid grey" }}>Login</h1>
+            <div className="form-group my-3 mx-3">
+              <label >User name</label>
+              <input
+                type="text"
+                className="form-control"
+                name="username"
+                placeholder="Enter the user name"
+                required
+                value={this.state.username}
+                onChange={this.onChange}
+              />
+            </div>
+            <div className="form-group my-3 mx-3">
+              <label >Password</label>
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                placeholder="Password"
+                required
+                value={this.state.password}
+                onChange={this.onChange}
+              />
+            </div>
 
-          <div className="my-3">
-            <button
-              type="submit"
-              className="btn btn-primary ml-3 mr-5   px-5"
-            >
-              Login
+            <div className="my-3">
+              <button
+                type="submit"
+                className="btn btn-primary ml-3 mr-5   px-5"
+              >
+                Login
               </button>
-            <Link to={'/auth/signup'} >Don't have an account?</Link>
-          </div>
-        </form>
-      </div>
+              <Link to={'/auth/signup'} >Don't have an account?</Link>
+            </div>
+          </form>
+        </div>
       </div>
     )
   }

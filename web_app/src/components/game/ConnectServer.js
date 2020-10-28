@@ -11,7 +11,7 @@ export const fetch_news = details => {
     }
   }
   return axios
-    .post('/news/fetch', postData, axiosConfig)
+    .post('/api/news/fetch', postData, axiosConfig)
     .then(response => {
       return response.data
     })

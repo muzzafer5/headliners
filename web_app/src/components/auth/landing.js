@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Nav, Navbar } from 'react-bootstrap'
-import landing_pic from '../../static/news2.jpg'
+import landing_pic from '../../images/background.jpg'
 
 class Landing extends Component {
   componentDidMount() {
@@ -47,7 +47,7 @@ class Landing extends Component {
             </Navbar.Collapse>
           </Navbar>
         </div>
-        <div className="text-center mt-5" 
+        <div className="text-center mt-5"
         >
           <h1>News App</h1>
 

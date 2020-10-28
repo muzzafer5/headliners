@@ -14,13 +14,10 @@ const auth = require("./components/auth/routes/auth")
 const news = require("./components/news/routes/news")
 const admin = require("./components/admin/routes/admin")
 
-app.use("/auth", auth)
-app.use("/news", news)
-app.use("/admin", admin)
+app.use("/api/auth", auth)
+app.use("/api/news", news)
+app.use("/api/admin", admin)
 
-app.get('/', (req, res) => {
-  console.log("BTP")
-})
 module.exports = app
 
 //export default app

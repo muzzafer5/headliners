@@ -10,7 +10,7 @@ export const fetch_users = () => {
     }
 
     return axios
-        .get('/admin/fetch/user',axiosConfig)
+        .get('/api/admin/fetch/user',axiosConfig)
         .then(response => {
             return response.data
         })
@@ -23,7 +23,7 @@ export const admin_login = details =>{
     var postData = details
 
     return axios
-        .post('/admin/login', postData)
+        .post('/api/admin/login', postData)
         .then(response => {
             return response.data
         })

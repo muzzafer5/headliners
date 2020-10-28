@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import admin from '../../static/admin.jpg' 
+import admin from '../../images/admin.jpg' 
 import {admin_login} from './ConnectServer'
 
 class Admin extends Component {

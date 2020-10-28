@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import {fetch_news} from './ConnectServer'
-import {Button, Modal } from 'react-bootstrap'
-import bg_pic from '../../static/news2.jpg' 
+import { fetch_news } from './ConnectServer'
+import { Button, Modal } from 'react-bootstrap'
+import bg_pic from '../../images/background.jpg'
 import { CanvasJSChart } from 'canvasjs-react-charts'
 import MultiSelect from 'react-multi-select-component'
 
@@ -9,28 +9,28 @@ class Game extends Component {
     constructor() {
         super()
         this.state = {
-            show : 0,
+            show: 0,
             errors: {},
-            show_headlines : false,
-            show_headlines2 : false,
-            show_chart : false,
-            show_chart2 : false,
-            show_feadback : false,
+            show_headlines: false,
+            show_headlines2: false,
+            show_chart: false,
+            show_chart2: false,
+            show_feadback: false,
             shared: [],
             shared_with_media: [],
-            cultural_values_1 : null,
+            cultural_values_1: null,
             cultural_values_2: null,
             cultural_values_3: null,
             cultural_values_4: null,
             cultural_values_5: null,
             cultural_values_6: null,
-            fake_news_1 : '',
+            fake_news_1: '',
             fake_news_2: '',
             fake_news_3: '',
             fake_news_4: '',
             fake_news_5: '',
             fake_news_6: '',
-            feedback : [],
+            feedback: [],
             news: {}
         }
         this.onCloseModal = this.onCloseModal.bind(this)
@@ -42,7 +42,7 @@ class Game extends Component {
         if (!localStorage.usertoken)
             this.props.history.push(`/login`)
     }
-    onCloseModal(){
+    onCloseModal() {
         this.props.history.push(`/home`)
     }
 
@@ -55,24 +55,24 @@ class Game extends Component {
         this.onNextModal()
     }
 
-    onShare2(){
+    onShare2() {
         var title = this.state.news.title
         var shared_news = this.state.shared_with_media
         shared_news.push(title)
         console.log(shared_news)
-        this.setState({shared_with_media : shared_news})
+        this.setState({ shared_with_media: shared_news })
         this.onNextModal()
     }
 
 
-    onNextModal(){
-        if(this.state.show === 0){
-            this.setState({show_headlines : true})
-            fetch_news({ category: 'sports'}).then(res=>{
+    onNextModal() {
+        if (this.state.show === 0) {
+            this.setState({ show_headlines: true })
+            fetch_news({ category: 'sports' }).then(res => {
                 var content = {
                     title: res.title,
-                    description : res.description,
-                    urlToImage : res.urlToImage,
+                    description: res.description,
+                    urlToImage: res.urlToImage,
                     category: 'Sports',
                     index: '1'
                 }
@@ -159,15 +159,15 @@ class Game extends Component {
             })
         }
         if (this.state.show === 6) {
-            this.setState({show_headlines : false})
-            this.setState({show_chart : true})
+            this.setState({ show_headlines: false })
+            this.setState({ show_chart: true })
         }
-        if(this.state.show === 7){
-            this.setState({ show_chart: false })            
+        if (this.state.show === 7) {
+            this.setState({ show_chart: false })
         }
         if (this.state.show === 8) {
             this.setState({ show_headlines2: true })
-            this.setState({news : this.state.feedback[0]})
+            this.setState({ news: this.state.feedback[0] })
         }
         if (this.state.show === 9) {
             this.setState({ news: this.state.feedback[1] })
@@ -190,9 +190,9 @@ class Game extends Component {
         }
         if (this.state.show === 15) {
             this.setState({ show_chart2: false })
-            this.setState({show_feadback : true})
+            this.setState({ show_feadback: true })
         }
-        this.setState({show: this.state.show + 1})
+        this.setState({ show: this.state.show + 1 })
     }
 
     render() {
@@ -261,10 +261,10 @@ class Game extends Component {
                     <Modal.Title>Headline News Phase 1</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
-                    <div style={{ color: "#bd4a4a", fontSize : "14px"}}>
+                    <div style={{ color: "#bd4a4a", fontSize: "14px" }}>
                         * News Headlines are being pulled from the most popular stations.
-                         Click on next without share, if you would not share the headline to your social media community or next with share,
-                         if you would share the headline. *
+                        Click on next without share, if you would not share the headline to your social media community or next with share,
+                        if you would share the headline. *
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -294,27 +294,27 @@ class Game extends Component {
             </Modal>
         )
         const headline = (
-            <Modal centered size = "lg" show={this.state.show_headlines} animation={false}>
+            <Modal centered size="lg" show={this.state.show_headlines} animation={false}>
                 <Modal.Header closeButton onClick={this.onCloseModal}>
                     <Modal.Title><b>{this.state.news.category}</b> : Phase 1</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
-                    <div style = {{height : "500px"}}>
+                    <div style={{ height: "500px" }}>
                         {this.state.news ?
                             (
-                                <div className = "container">
-                                    
-                                        <div className = "text-center pt-5" style = {{fontSize : "20px", fontWeight : "700"}}> Title: </div> 
-                                        <div style={{ fontSize : "18px", color: "#4e4f4f"}}>{this.state.news.title}</div>
-                                        <div className="text-center pt-5" style={{ fontSize: "20px", fontWeight: "700" }}>Desctiption: </div> 
-                                        <div style={{ fontSize: "18px", color: "#4e4f4f" }}>{this.state.news.description}</div>
+                                <div className="container">
+
+                                    <div className="text-center pt-5" style={{ fontSize: "20px", fontWeight: "700" }}> Title: </div>
+                                    <div style={{ fontSize: "18px", color: "#4e4f4f" }}>{this.state.news.title}</div>
+                                    <div className="text-center pt-5" style={{ fontSize: "20px", fontWeight: "700" }}>Desctiption: </div>
+                                    <div style={{ fontSize: "18px", color: "#4e4f4f" }}>{this.state.news.description}</div>
 
                                 </div>
-                            ):''}
+                            ) : ''}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <div style={{ marginRight : "60%"}} >
+                    <div style={{ marginRight: "60%" }} >
                         <Button variant="dark" className="btn btn-primary" onClick={this.onNextModal}>
                             Next without share
                     </Button>
@@ -335,15 +335,15 @@ class Game extends Component {
                     <div style={{ height: "500px" }}>
                         {this.state.news ?
                             (
-                                <div className = "container">
+                                <div className="container">
                                     <div className="text-center pt-2" style={{ fontSize: "20px", fontWeight: "700" }}> Title: </div>
                                     <div style={{ fontSize: "18px", color: "#4e4f4f" }}>{this.state.news.title}</div>
                                     <div className="text-center pt-2" style={{ fontSize: "20px", fontWeight: "700" }}>Desctiption: </div>
                                     <div style={{ fontSize: "18px", color: "#4e4f4f" }}>{this.state.news.description}</div>
                                     <div className="text-center pt-2" style={{ fontSize: "20px", fontWeight: "700" }}>Image: </div>
                                     {   this.state.news.urlToImage ?
-                                        (<div style={{ alignItems: "center", textAlign: "center"}}>
-                                            <img src={this.state.news.urlToImage} alt = "news" height="280px"></img>
+                                        (<div style={{ alignItems: "center", textAlign: "center" }}>
+                                            <img src={this.state.news.urlToImage} alt="news" height="280px"></img>
                                         </div>)
                                         : ''}
                                 </div>
@@ -402,22 +402,22 @@ class Game extends Component {
             </Modal>
         )
         const feedback = (
-            <Modal centered  show={this.state.show_feadback} animation={false}>
+            <Modal centered show={this.state.show_feadback} animation={false}>
                 <Modal.Header closeButton onClick={this.onCloseModal}>
                     <Modal.Title>Feedback</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
                     <div style={{ fontSize: "14px" }}>
                         {
-                            this.state.feedback.map((data, i)=>(
-                                <div key = {i} style = {{
-                                    marginTop : "10px",
+                            this.state.feedback.map((data, i) => (
+                                <div key={i} style={{
+                                    marginTop: "10px",
                                     border: "1px solid #D3D3D3",
                                     padding: "10px",
                                     boxShadow: "2px 2px 3px #bfbfbf",
                                     borderRadius: "15px",
                                 }}>
-                                    <div style = {{fontSize : "18px"}}>
+                                    <div style={{ fontSize: "18px" }}>
                                         {data.category}
                                     </div>
                                     <div className="form-group my-3">
@@ -430,15 +430,15 @@ class Game extends Component {
                                     </div>
                                     <div className="form-group my-3">
                                         <label >Involved cultural values*</label>
-                                        <MultiSelect 
-                                            value={this.state['cultural_values_' + data.index] }
-                                            onChange={(values) => this.setState({ ['cultural_values_' + data.index]:values})}
+                                        <MultiSelect
+                                            value={this.state['cultural_values_' + data.index]}
+                                            onChange={(values) => this.setState({ ['cultural_values_' + data.index]: values })}
                                             options={cultural_values_options}
                                         />
                                     </div>
                                     <div className="form-group my-3">
                                         <label >Will you mark this news fake?</label>
-                                        <select className="form-control" name="fake_news" value={this.state["fake_news_" + data.index]} onChange={(e)=>this.setState({['fake_news_' + data.index]:e.target.value})}>
+                                        <select className="form-control" name="fake_news" value={this.state["fake_news_" + data.index]} onChange={(e) => this.setState({ ['fake_news_' + data.index]: e.target.value })}>
                                             <option value='' disabled></option>
                                             <option value='yes'>Yes</option>
                                             <option value='no'>No</option>
@@ -468,7 +468,7 @@ class Game extends Component {
             opacity: "1"
         };
         return (
-            <div className="home" style = {sectionStyle}>
+            <div className="home" style={sectionStyle}>
                 Game
                 {consentModal}
                 {headline}

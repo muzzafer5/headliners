@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
-import { Nav, Navbar} from 'react-bootstrap'
+import { Nav, Navbar } from 'react-bootstrap'
 
 class Header extends Component {
-
     constructor(props) {
         super(props)
         this.state = {
-            errors:{}
+            errors: {}
         }
         this.logOut = this.logOut.bind(this)
     }
-
 
     logOut(e) {
         e.preventDefault();
@@ -19,7 +17,6 @@ class Header extends Component {
     }
 
     render() {
-       
         return (
             <Navbar className="px-4" collapseOnSelect expand="lg"
                 style={{

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import reporter from '../../static/reporter.png' 
-import paper from '../../static/paper.png'
+import reporter from '../../images/reporter.png'
+import paper from '../../images/news.png'
 
 class Home extends Component {
     constructor() {
@@ -14,20 +14,20 @@ class Home extends Component {
         if (!localStorage.usertoken)
             this.props.history.push(`/login`)
     }
-    gameMode(){
+    gameMode() {
         this.props.history.push('/game')
     }
     render() {
         return (
             <div className="home" >
-                <div className = "row mx-2">
-                    <div className = "col-4" style = {{                      
+                <div className="row mx-2">
+                    <div className="col-4" style={{
                         height: "400px",
                         backgroundImage: "url(" + reporter + ")",
                         backgroundPosition: 'center',
                         backgroundSize: '400px',
                         backgroundRepeat: 'no-repeat',
-                        marginTop : "100px",
+                        marginTop: "100px",
                         opacity: "1"
                     }}>
                     </div>
@@ -37,12 +37,12 @@ class Home extends Component {
                             style={{
                                 position: "absolute",
                                 top: "40%",
-                                fontSize : "30px",
-                                borderRadius : 100
+                                fontSize: "30px",
+                                borderRadius: 100
                             }}
-                            onClick = {this.gameMode}
+                            onClick={this.gameMode}
                         >
-                        Click to enter in the game
+                            Click to enter in the game
                         </button>
                     </div>
                     <div className="col-4" style={{
