@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { fetch_news } from './ConnectServer'
 import { Button, Modal } from 'react-bootstrap'
-import bg_pic from '../../images/background.jpg'
 import { CanvasJSChart } from 'canvasjs-react-charts'
 import MultiSelect from 'react-multi-select-component'
 
@@ -256,128 +255,134 @@ class Game extends Component {
             }]
         }
         const consentModal = (
-            <Modal centered show={this.state.show === 0} animation={false}>
-                <Modal.Header closeButton onClick={this.onCloseModal}>
-                    <Modal.Title>Headline News Phase 1</Modal.Title>
+            <Modal centered show={this.state.show === 0} animation={true} className="shadow-lg">
+                <Modal.Header>
+                    <Modal.Title>Phase 1</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
-                    <div style={{ color: "#bd4a4a", fontSize: "14px" }}>
-                        * News Headlines are being pulled from the most popular stations.
-                        Click on next without share, if you would not share the headline to your social media community or next with share,
-                        if you would share the headline. *
+                    <div style={{ fontFamily: "Lato", fontSize: "small", textAlign: "justify" }}>
+                        <ul>
+                            <li>
+                                News Headlines are being pulled from the most popular stations.
+                            </li>
+                            <li>
+                                Click on the button "<b>Don't Share</b>" if you would not share the news headline to your social media community, else click on the button "<b>Share</b>".
+                            </li>
+                        </ul>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="dark" className="btn btn-primary" onClick={this.onNextModal}>
+                    <Button variant="primary" className="btn btn-primary" onClick={this.onNextModal}>
                         Enter
-          </Button>
+                    </Button>
+                    <Button variant="dark" className="btn btn-primary" onClick={this.onCloseModal}>
+                        Exit
+                    </Button>
                 </Modal.Footer>
             </Modal>
         )
         const consentModal2 = (
             <Modal centered show={this.state.show === 8} animation={false}>
-                <Modal.Header closeButton onClick={this.onCloseModal}>
-                    <Modal.Title>Headline News Phase 2</Modal.Title>
+                <Modal.Header>
+                    <Modal.Title>Phase 2</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
-                    <div style={{ color: "#bd4a4a", fontSize: "14px" }}>
-                        * News Headlines are being pulled from the most popular stations.
-                        Click on next without share, if you would not share the headline to your social media community or next with share,
-                        if you would share the headline. *
+                    <div style={{ fontFamily: "Lato", fontSize: "small", textAlign: "justify" }}>
+                        <ul>
+                            <li>
+                                News Headlines are being pulled from the most popular stations.
+                            </li>
+                            <li>
+                                Click on the button "<b>Don't Share</b>" if you would not share the news headline to your social media community, else click on the button "<b>Share</b>".
+                            </li>
+                        </ul>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="dark" className="btn btn-primary" onClick={this.onNextModal}>
+                    <Button variant="primary" className="btn btn-primary" onClick={this.onNextModal}>
                         Enter
-          </Button>
+                    </Button>
+                    <Button variant="dark" className="btn btn-primary" onClick={this.onCloseModal}>
+                        Exit
+                    </Button>
                 </Modal.Footer>
             </Modal>
         )
         const headline = (
-            <Modal centered size="lg" show={this.state.show_headlines} animation={false}>
+            <Modal centered show={this.state.show_headlines} animation={true} style={{ fontFamily: "Lato" }}>
                 <Modal.Header closeButton onClick={this.onCloseModal}>
-                    <Modal.Title><b>{this.state.news.category}</b> : Phase 1</Modal.Title>
+                    <Modal.Title>{this.state.news.category}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
-                    <div style={{ height: "500px" }}>
+                    <div>
                         {this.state.news ?
                             (
                                 <div className="container">
-
-                                    <div className="text-center pt-5" style={{ fontSize: "20px", fontWeight: "700" }}> Title: </div>
-                                    <div style={{ fontSize: "18px", color: "#4e4f4f" }}>{this.state.news.title}</div>
-                                    <div className="text-center pt-5" style={{ fontSize: "20px", fontWeight: "700" }}>Desctiption: </div>
-                                    <div style={{ fontSize: "18px", color: "#4e4f4f" }}>{this.state.news.description}</div>
-
+                                    <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Title</div>
+                                    <div className="mb-2" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.title}</div>
+                                    <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Description</div>
+                                    <div className="my-auto" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.description}</div>
                                 </div>
                             ) : ''}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <div style={{ marginRight: "60%" }} >
-                        <Button variant="dark" className="btn btn-primary" onClick={this.onNextModal}>
-                            Next without share
+                    <Button className="btn btn-secondary" onClick={this.onNextModal}>
+                        Don't Share
                     </Button>
-                    </div>
-                    <Button variant="dark" className="btn btn-primary" onClick={this.onShare}>
-                        Next with share
+                    <Button className="btn btn-secondary" onClick={this.onShare}>
+                        Share
                     </Button>
-
                 </Modal.Footer>
             </Modal>
         )
         const headline2 = (
-            <Modal centered size="lg" show={this.state.show_headlines2} animation={false}>
+            <Modal centered show={this.state.show_headlines2} animation={true} style={{ fontFamily: "Lato" }}>
                 <Modal.Header closeButton onClick={this.onCloseModal}>
-                    <Modal.Title>{this.state.news.category} : Phase 2</Modal.Title>
+                    <Modal.Title>{this.state.news.category}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
-                    <div style={{ height: "500px" }}>
+                    <div>
                         {this.state.news ?
                             (
                                 <div className="container">
-                                    <div className="text-center pt-2" style={{ fontSize: "20px", fontWeight: "700" }}> Title: </div>
-                                    <div style={{ fontSize: "18px", color: "#4e4f4f" }}>{this.state.news.title}</div>
-                                    <div className="text-center pt-2" style={{ fontSize: "20px", fontWeight: "700" }}>Desctiption: </div>
-                                    <div style={{ fontSize: "18px", color: "#4e4f4f" }}>{this.state.news.description}</div>
-                                    <div className="text-center pt-2" style={{ fontSize: "20px", fontWeight: "700" }}>Image: </div>
                                     {   this.state.news.urlToImage ?
-                                        (<div style={{ alignItems: "center", textAlign: "center" }}>
-                                            <img src={this.state.news.urlToImage} alt="news" height="280px"></img>
+                                        (<div style={{ alignItems: "center" }}>
+                                            <img src={this.state.news.urlToImage} alt="news" style={{ maxWidth: "100%", height: "auto" }}></img>
                                         </div>)
                                         : ''}
+                                    <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Title</div>
+                                    <div className="mb-2" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.title}</div>
+                                    <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Description</div>
+                                    <div className="my-auto" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.description}</div>
+
                                 </div>
                             ) : ''}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <div style={{ marginRight: "60%" }} >
-                        <Button variant="dark" className="btn btn-primary" onClick={this.onNextModal}>
-                            Next without share
-                        </Button>
-                    </div>
-                    <Button variant="dark" className="btn btn-primary" onClick={this.onShare2}>
-                        Next with share
+                    <Button className="btn btn-secondary" onClick={this.onNextModal}>
+                        Don't Share
                     </Button>
-
+                    <Button className="btn btn-secondary" onClick={this.onShare2}>
+                        Share
+                    </Button>
                 </Modal.Footer>
             </Modal>
         )
         const pieChart = (
             <Modal centered show={this.state.show_chart} animation={false}>
                 <Modal.Header closeButton onClick={this.onCloseModal}>
-                    <Modal.Title>Chart Phase 1</Modal.Title>
+                    <Modal.Title>Chart (Phase 1)</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
-                    <div style={{ color: "#bd4a4a", fontSize: "14px" }}>
-                        <CanvasJSChart options={options1}
-                        /* onRef={ref => this.chart = ref} */
-                        />
+                    <div>
+                        <CanvasJSChart options={options1} />
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="dark" className="btn btn-primary" onClick={this.onNextModal}>
-                        Move to phase 2
+                    <Button className="btn btn-primary" onClick={this.onNextModal}>
+                        Move to Phase 2
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -385,17 +390,15 @@ class Game extends Component {
         const pieChart2 = (
             <Modal centered show={this.state.show_chart2} animation={false}>
                 <Modal.Header closeButton onClick={this.onCloseModal}>
-                    <Modal.Title>Chart Phase 2</Modal.Title>
+                    <Modal.Title>Chart (Phase 2)</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
-                    <div style={{ color: "#bd4a4a", fontSize: "14px" }}>
-                        <CanvasJSChart options={options2}
-                        /* onRef={ref => this.chart = ref} */
-                        />
+                    <div>
+                        <CanvasJSChart options={options2} />
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="dark" className="btn btn-primary" onClick={this.onNextModal}>
+                    <Button className="btn btn-primary" onClick={this.onNextModal}>
                         Done
                     </Button>
                 </Modal.Footer>
@@ -407,7 +410,7 @@ class Game extends Component {
                     <Modal.Title>Feedback</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
-                    <div style={{ fontSize: "14px" }}>
+                    <div style={{ fontSize: "small", fontFamily: "Lato" }}>
                         {
                             this.state.feedback.map((data, i) => (
                                 <div key={i} style={{
@@ -422,7 +425,7 @@ class Game extends Component {
                                     </div>
                                     <div className="form-group my-3">
                                         <div >
-                                            News Title:
+                                            <b>News Title</b>
                                         </div>
                                         <div style={{ color: "grey", fontWeight: "600" }}>
                                             {data.title}
@@ -433,12 +436,15 @@ class Game extends Component {
                                         <MultiSelect
                                             value={this.state['cultural_values_' + data.index]}
                                             onChange={(values) => this.setState({ ['cultural_values_' + data.index]: values })}
-                                            options={cultural_values_options}
-                                        />
+                                            options={cultural_values_options} />
                                     </div>
                                     <div className="form-group my-3">
                                         <label >Will you mark this news fake?</label>
-                                        <select className="form-control" name="fake_news" value={this.state["fake_news_" + data.index]} onChange={(e) => this.setState({ ['fake_news_' + data.index]: e.target.value })}>
+                                        <select 
+                                            className="form-control" 
+                                            name="fake_news" 
+                                            value={this.state["fake_news_" + data.index]} 
+                                            onChange={(e) => this.setState({ ['fake_news_' + data.index]: e.target.value })}>
                                             <option value='' disabled></option>
                                             <option value='yes'>Yes</option>
                                             <option value='no'>No</option>
@@ -452,24 +458,14 @@ class Game extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="dark" className="btn btn-primary" onClick={this.onCloseModal}>
+                    <Button className="btn btn-primary" onClick={this.onCloseModal}>
                         Submit
                     </Button>
                 </Modal.Footer>
             </Modal>
         )
-        var sectionStyle = {
-            width: "100%",
-            height: "100vh",
-            backgroundImage: "url(" + bg_pic + ")",
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            opacity: "1"
-        };
         return (
-            <div className="home" style={sectionStyle}>
-                Game
+            <div>
                 {consentModal}
                 {headline}
                 {pieChart}
