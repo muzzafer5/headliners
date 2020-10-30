@@ -16,7 +16,7 @@ class Landing extends Component {
           >
           <Navbar.Brand>Headliners</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav" className="my-1">
+          <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto"></Nav>
             <Nav>
               <Nav.Link

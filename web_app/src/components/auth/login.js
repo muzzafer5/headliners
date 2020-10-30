@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { login } from './ConnectServer'
 import { Link } from 'react-router-dom'
-import auth from '../../images/background.jpg'
+import { Navbar } from 'react-bootstrap'
 
 class Login extends Component {
   constructor() {
@@ -35,65 +35,46 @@ class Login extends Component {
   }
 
   render() {
-    var sectionStyle = {
-      width: "100%",
-      height: "100vh",
-      backgroundImage: "url(" + auth + ")",
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      opacity: "1"
-    };
 
     return (
-      <div style={sectionStyle}>
-        <div className="login "
-          style={{
-            border: "2px solid grey",
-            position: "absolute",
-            top: "25%",
-            width: "36%",
-            left: "32%",
-            borderRadius: "20px",
-            backgroundColor: "white"
-          }}>
-          <form validate="true" onSubmit={this.onSubmit}>
-            <h1 className="h2 text-center py-2" style={{ borderBottom: "1px solid grey" }}>Login</h1>
-            <div className="form-group my-3 mx-3">
-              <label >User name</label>
-              <input
-                type="text"
-                className="form-control"
-                name="username"
-                placeholder="Enter the user name"
-                required
-                value={this.state.username}
-                onChange={this.onChange}
-              />
-            </div>
-            <div className="form-group my-3 mx-3">
-              <label >Password</label>
-              <input
-                type="password"
-                className="form-control"
-                name="password"
-                placeholder="Password"
-                required
-                value={this.state.password}
-                onChange={this.onChange}
-              />
-            </div>
-
-            <div className="my-3">
-              <button
-                type="submit"
-                className="btn btn-primary ml-3 mr-5   px-5"
-              >
-                Login
-              </button>
-              <Link to={'/auth/signup'} >Don't have an account?</Link>
-            </div>
-          </form>
+      <div>
+        <Navbar className="px-5 navbar-dark bg-dark">
+          <Navbar.Brand href="/">Headliners</Navbar.Brand>
+        </Navbar>
+        <div className="card py-5" style={{ fontFamily: "Lato" }}>
+          <div className="shadow-lg card-body col-lg-5 col-sm-9 col-md-7 col-11 mx-auto">
+            <h1 className="card-title text-center my-3">Login</h1>
+            <form validate="true" onSubmit={this.onSubmit}>
+              <div className="form-group my-3 mx-3">
+                <label >Username</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="username"
+                  placeholder="Username"
+                  required
+                  value={this.state.username}
+                  onChange={this.onChange} />
+              </div>
+              <div className="form-group my-3 mx-3">
+                <label >Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  name="password"
+                  placeholder="Password"
+                  required
+                  value={this.state.password}
+                  onChange={this.onChange} />
+              </div>
+              <div className="my-3 mx-3">
+                <button type="submit" className="btn btn-primary px-5">Login</button>
+              </div>
+              <div className="my-3 mx-3">
+                <Link to={'/auth/signup'} >Already have an account?</Link>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     )
