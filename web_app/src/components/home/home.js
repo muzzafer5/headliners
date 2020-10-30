@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import reporter from '../../images/reporter.png'
-import paper from '../../images/news.png'
 
 class Home extends Component {
     constructor() {
@@ -19,44 +17,14 @@ class Home extends Component {
     }
     render() {
         return (
-            <div className="home" >
-                <div className="row mx-2">
-                    <div className="col-4" style={{
-                        height: "400px",
-                        backgroundImage: "url(" + reporter + ")",
-                        backgroundPosition: 'center',
-                        backgroundSize: '400px',
-                        backgroundRepeat: 'no-repeat',
-                        marginTop: "100px",
-                        opacity: "1"
-                    }}>
-                    </div>
-                    <div className="col-4">
+            <div style={{ width: "100vw", minHeight: "100vh" }} className="container-fluid">
+                <div className="d-flex flex-column justify-content-center" style={{ minHeight: "100vh" }}>
+                    <div className="d-flex flex-row justify-content-center">
                         <button
-                            className="btn btn-primary  px-5 "
-                            style={{
-                                position: "absolute",
-                                top: "40%",
-                                fontSize: "30px",
-                                borderRadius: 100
-                            }}
-                            onClick={this.gameMode}
-                        >
-                            Click to enter in the game
-                        </button>
-                    </div>
-                    <div className="col-4" style={{
-                        backgroundImage: "url(" + paper + ")",
-                        backgroundPosition: 'center',
-                        backgroundSize: '450px',
-                        backgroundRepeat: 'no-repeat',
-                        marginTop: "100px",
-                        opacity: "1"
-                    }}>
-
+                            className="btn btn-primary px-5"
+                            onClick={this.gameMode}>Start</button>
                     </div>
                 </div>
-
             </div>
         )
     }
