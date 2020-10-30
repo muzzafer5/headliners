@@ -16,14 +16,14 @@ class Landing extends Component {
           >
           <Navbar.Brand>Headliners</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav" className="my-2">
+          <Navbar.Collapse id="responsive-navbar-nav" className="my-1">
             <Nav className="mr-auto"></Nav>
             <Nav>
               <Nav.Link
-                className="btn btn-outline-secondary mx-2 my-2"
+                className="btn btn-outline-secondary mx-2 my-1"
                 href={'/auth/login/'}>Login</Nav.Link>
               <Nav.Link
-                className="btn btn-outline-secondary mx-2 my-2"
+                className="btn btn-outline-secondary mx-2 my-1"
                 href={'/auth/signup/'}>Signup</Nav.Link>
             </Nav>
           </Navbar.Collapse>
