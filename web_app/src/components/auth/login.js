@@ -71,7 +71,7 @@ class Login extends Component {
                 <button type="submit" className="btn btn-primary px-5">Login</button>
               </div>
               <div className="my-3 mx-3">
-                <Link to={'/auth/signup'} >Already have an account?</Link>
+                <Link to={'/auth/signup'} >Don't have an account?</Link>
               </div>
             </form>
           </div>
