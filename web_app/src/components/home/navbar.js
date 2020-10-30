@@ -18,32 +18,19 @@ class Header extends Component {
 
     render() {
         return (
-            <Navbar className="px-4" collapseOnSelect expand="lg"
-                style={{
-                    borderBottom: "1px solid #e6f7dc",
-                }}
-            >
-                <Navbar.Brand href="/">
-                    <span
-                        style={{
-                            color: "#6FA843",
-                            fontSize: "20px",
-                            fontWeight: "500"
-                        }}
-                    >
-                        Headliners
-            </span>
-                </Navbar.Brand>
+            <Navbar 
+                className="px-5 navbar-dark bg-dark" 
+                collapseOnSelect 
+                expand="lg">
+                <Navbar.Brand href="/">Headliners</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto"></Nav>
                     <Nav>
-                        <Nav.Link eventKey={1} onClick={this.logOut} className="ml-3" style={{
-                            fontSize: "17px",
-                            fontWeight: "600"
-                        }}>
-                            Logout
-                        </Nav.Link>
+                        <Nav.Link 
+                            eventKey={1} 
+                            className="btn btn-outline-secondary mx-2" 
+                            onClick={this.logOut}>Logout</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
