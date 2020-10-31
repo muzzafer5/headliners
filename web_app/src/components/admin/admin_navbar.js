@@ -1,54 +1,36 @@
 import React, { Component } from 'react'
+import { Nav, Navbar } from 'react-bootstrap'
 
 class AdminNavbar extends Component {
-
     logOut() {
         localStorage.removeItem("admintoken")
         this.props.history.push('/admin')
     }
 
-    render(){
-        return(
-            <div style={{ padding: "10px", borderBottom: "1px solid #e6f7dc", }}>
-                <button className="btn btn-dark"
-                    style={{
-                        fontSize: "20px",
-                        borderRadius: "50px",
-                        padding: "2px 10px",
-                    }}
-                    onClick={() => this.props.history.push('/admin/home')}
-                >
-                    Admin Page
-                    </button>
-                <button className="btn btn-danger"
-                    style={{
-                        float: "right",
-                        marginLeft: "10px",
-                        fontSize: "14px",
-                        marginTop: "2px",
-                        borderRadius: "50px",
-                        padding: "2px 10px",
-                    }}
-                    onClick={() => this.logOut() }
-                >
-                    Logout
-                    </button>
-                <button className="btn btn-success"
-                    style={{
-                        float: "right",
-                        fontSize: "14px",
-                        marginTop: "2px",
-                        borderRadius: "50px",
-                        padding: "2px 10px",
-                    }}
-                    onClick={() => this.props.history.push('/')}
-                >
-                    Headliners
-                    </button>
-            </div>
+    render() {
+        return (
+            <Navbar
+                className="px-5 navbar-dark bg-dark"
+                collapseOnSelect
+                expand="lg">
+                <Navbar.Brand href="/">Headliners</Navbar.Brand>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="mr-auto"></Nav>
+                    <Nav.Link
+                        className="btn btn-outline-light mx-2 my-1"
+                        onClick={() => this.props.history.push('/admin/home')}>
+                        Admin Home
+                        </Nav.Link>
+                    <Nav.Link
+                        className="btn btn-outline-light mx-2 my-1"
+                        onClick={() => this.logOut()}>
+                        Logout
+                        </Nav.Link>
+                </Navbar.Collapse>
+            </Navbar>
         )
     }
-
 }
 
 export default AdminNavbar
