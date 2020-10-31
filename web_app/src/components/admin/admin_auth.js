@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import admin from '../../images/admin.jpg' 
-import {admin_login} from './ConnectServer'
+import { admin_login } from './ConnectServer'
+import { Navbar } from 'react-bootstrap'
 
 class Admin extends Component {
     constructor() {
@@ -15,10 +15,10 @@ class Admin extends Component {
     onSubmit(e) {
         e.preventDefault()
         const cred = {
-            password : this.state.password
+            password: this.state.password
         }
 
-        admin_login(cred).then(res=>{
+        admin_login(cred).then(res => {
             if (res) {
                 localStorage.setItem('admintoken', res)
                 this.props.history.push(`/admin/home`)
@@ -32,42 +32,28 @@ class Admin extends Component {
     }
 
     render() {
-
         return (
-            <div
-                style= {{
-                    width: "100%",
-                    height: "100vh",
-                    backgroundImage: "url(" + admin + ")",
-                    backgroundPosition: 'center',
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                }
-                }
-            >
-                <div className="admin"
-                    style={{
-                        position: "absolute",
-                        top: "35%",
-                        width: "30%",
-                        left: "35%",
-                    }}>
-                    <div className = "container">
-                        <div className="form-group mb-4 mt-3">
+            <div>
+                <Navbar className="px-5 navbar-dark bg-dark" style={{height:"10vh"}}>
+                    <Navbar.Brand href="/">Headliners</Navbar.Brand>
+                </Navbar>
+                <div className="d-flex justify-content-center py-5" style={{ width: "100vw", minHeight: "90vh" }}>
+                    <div className="d-flex flex-column col-lg-6 col-md-8 col-10 justify-content-center px-5 shadow-lg">
+                        <div className="d-flex flex-row form-group">
+                            <label for="admin-password"><h3>Admin Password</h3></label>
+                        </div>
+                        <div className="d-flex flex-row form-group mb-1">
                             <input
                                 type="password"
                                 className="form-control"
                                 name="password"
+                                id="admin-password"
                                 required
                                 value={this.state.password}
-                                onChange={(e)=>this.setState({password:e.target.value})}
-                            />
+                                onChange={(e) => this.setState({ password: e.target.value })} />
                         </div>
-                        <div className="form-group my-2 text-center">
-                            <button
-                                onClick = {this.onSubmit}
-                                className="btn btn-dark px-5"
-                            >
+                        <div className="d-flex flex-row form-group text-center mt-2">
+                            <button onClick={this.onSubmit} className="btn btn-primary px-5 shadow">
                                 Enter
                             </button>
                         </div>
