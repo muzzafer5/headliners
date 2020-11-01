@@ -327,12 +327,14 @@ class Game extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn btn-secondary" onClick={this.onNextModal}>
-                        Don't Share
-                    </Button>
-                    <Button className="btn btn-secondary" onClick={this.onShare}>
-                        Share
-                    </Button>
+                    <div style = {{width : "100%"}}>
+                        <Button className="btn btn-secondary" onClick={this.onNextModal}>
+                            Don't Share
+                        </Button>
+                        <Button className="btn btn-secondary" style = {{float : "right"}}onClick={this.onShare}>
+                            Share
+                        </Button>
+                    </div>
                 </Modal.Footer>
             </Modal>
         )
@@ -361,12 +363,14 @@ class Game extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn btn-secondary" onClick={this.onNextModal}>
-                        Don't Share
-                    </Button>
-                    <Button className="btn btn-secondary" onClick={this.onShare2}>
-                        Share
-                    </Button>
+                    <div style={{ width: "100%" }}>
+                        <Button className="btn btn-secondary" onClick={this.onNextModal}>
+                            Don't Share
+                        </Button>
+                        <Button className="btn btn-secondary" style={{ float: "right" }} onClick={this.onShare2}>
+                            Share
+                        </Button>
+                    </div>
                 </Modal.Footer>
             </Modal>
         )
