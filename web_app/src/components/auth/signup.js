@@ -69,11 +69,11 @@ class Signup extends Component {
   render() {
     return (
       <div>
-        <Navbar className="px-5 navbar-dark bg-dark">
+        <Navbar className="px-5 navbar-dark bg-dark" >
           <Navbar.Brand href="/">Headliners</Navbar.Brand>
         </Navbar>
         <div className="card py-5" style={{ fontFamily: "Lato" }}>
-          <div className="shadow-lg card-body col-lg-5 col-sm-9 col-md-7 col-11 mx-auto">
+          <div className="shadow-lg card-body col-lg-5 col-sm-9 col-md-7 col-11 mx-auto" >
             <h1 className="card-title text-center my-3">Signup</h1>
             <form validate="true" onSubmit={this.onSubmit}>
               <div className="form-group my-3 mx-3">
@@ -439,9 +439,7 @@ class Signup extends Component {
               </div>
               <div className="my-3 mx-3">
                 <button type="submit" className="btn btn-primary px-5">Signup</button>
-              </div>
-              <div className="my-3 mx-3">
-                <Link to={'/auth/login'} >Already have an account?</Link>
+                <Link to={'/auth/login'} style ={{float : "right"}}>Already have an account?</Link>
               </div>
             </form>
           </div>

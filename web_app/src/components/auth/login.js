@@ -37,13 +37,16 @@ class Login extends Component {
   render() {
 
     return (
-      <div>
-        <Navbar className="px-5 navbar-dark bg-dark">
+      <div >
+        <Navbar className="px-5 navbar-dark bg-dark" style={{ height : "8vh"}}>
           <Navbar.Brand href="/">Headliners</Navbar.Brand>
         </Navbar>
-        <div className="card py-5" style={{ fontFamily: "Lato" }}>
-          <div className="shadow-lg card-body col-lg-5 col-sm-9 col-md-7 col-11 mx-auto">
-            <h1 className="card-title text-center my-3">Login</h1>
+
+        <div className="card py-5" style={{ fontFamily: "Lato", height: "92vh"}}>     
+          <div className="shadow-lg card-body col-lg-5 col-sm-9 col-md-7 col-11 mx-auto d-flex flex-column justify-content-center" >
+            <div>         
+            </div>
+            <h1 className="card-title text-center my-3">Login </h1>
             <form validate="true" onSubmit={this.onSubmit}>
               <div className="form-group my-3 mx-3">
                 <label >Username</label>
@@ -69,9 +72,7 @@ class Login extends Component {
               </div>
               <div className="my-3 mx-3">
                 <button type="submit" className="btn btn-primary px-5">Login</button>
-              </div>
-              <div className="my-3 mx-3">
-                <Link to={'/auth/signup'} >Don't have an account?</Link>
+                <Link to={'/auth/signup'} style ={{float : "right"}}>Don't have an account?</Link>
               </div>
             </form>
           </div>
