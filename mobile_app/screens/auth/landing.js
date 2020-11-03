@@ -1,83 +1,106 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, KeyboardAvoidingView, StatusBar, Button, TouchableOpacity} from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Landing extends Component {
 
-    render(){
-        return (
-            <KeyboardAvoidingView behavior="position" style={styles.container}>
-                <StatusBar backgroundColor="#0fa7ff" barStyle="light-content" />
-                <Text 
-                    style={styles.WelcomeText}
-                >
-                    Headliners
-   
-                </Text>
+    componentDidMount() {
+        this.check()
+    }
 
-                <View
-                    style={{
-                        borderBottomColor: "grey",
-                        borderBottomWidth: 3,
-                        borderRadius: 10,
-                        marginLeft : 30,
-                        marginRight : 30
-                    }}
-                />
-                <View 
-                    style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: 500
-                    }
-                }>
-                    <View style = {styles.AuthBox}>
-                        <Text style={{ fontSize: 25, paddingHorizontal : 50, paddingBottom : 20}}>Join Headliners</Text>
+    async check() {
+        var token = await AsyncStorage.getItem('token')
+        if (token !== null)
+            this.props.navigation.replace('Home')
+    }
+
+    render() {
+
+        return (
+            <View style={styles.container}>
+
+                <StatusBar backgroundColor="black" barStyle="light-content" />
+
+                <View style={styles.header}>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('Landing')}
+                    >
+                        <Text style={{ fontSize: 22, color: "white" }}>Headliners</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.body}>
+
+                    <View style={styles.AuthBox}>
+                        <Text style={{ fontSize: 26, paddingBottom: 20, fontWeight : "bold" }}>Join Headliners</Text>
                         <View style={{ paddingBottom: 20 }}>
                             <TouchableOpacity
-                                style = {styles.button}
+                                style={styles.button}
                                 onPress={() => this.props.navigation.navigate('Login')}
                             >
-                                <Text style={{ fontSize: 23, color: "white"}}>Login</Text>
+                                <Text style={{ fontSize: 21, color: "white" }}>Login</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{ paddingBottom: 10 }}>
+                        <View >
                             <TouchableOpacity
                                 style={styles.button}
                                 onPress={() => this.props.navigation.navigate('Signup')}
                             >
-
-                                <Text style={{ fontSize: 23, color: "white", }}>Signup</Text>
+                                <Text style={{ fontSize: 21, color: "white", }}>Signup</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
+
                 </View>
-            </KeyboardAvoidingView>
+
+                <View style={styles.footer}>
+                    <Text style={{ color: "white" }}>
+                        © 2020 Headliners. All rights reserved
+                    </Text>
+                </View>
+            </View>
         )
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "white"
     },
-    WelcomeText: {
-        textAlign : "center",
-        fontSize: 35, 
-        paddingTop: 20, 
-        paddingBottom : 10,
-        color: "blue"
+    header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        backgroundColor: "#2b2b2b",
+        padding: 10
     },
-    AuthBox : {
-        borderColor: "grey",
-        borderWidth: 2,
-        padding : 20
+    body: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    footer: {
+        backgroundColor: "#2b2b2b",
+        paddingVertical: 10,
+        alignItems: "center"
+    },
+    AuthBox: {
+        borderColor: "#ffffff",
+        padding: 50,
+        shadowColor: "#fafafa",
+        shadowOffset: {
+            width: 1,
+            height: 1
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 1.2,
+        elevation: 6
     },
     button: {
         alignItems: "center",
         backgroundColor: "#1290ff",
-        padding: 10,
-
+        paddingVertical: 8,
+        borderRadius : 30
     }
 })
+
 export default Landing

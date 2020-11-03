@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import { View, Text, Button, StatusBar, StyleSheet, Modal} from 'react-native'
+import { View, Text, Button, StatusBar, StyleSheet, Alert } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
-import Test from '../auth/test'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 class Home extends Component {
 
     constructor() {
         super()
         this.state = {
-            show_consent_modal : false,
             errors: {}
         }
         this.logout = this.logout.bind(this)
@@ -21,83 +20,57 @@ class Home extends Component {
         })
     }
 
-    onEnter(){
-        this.setState({show_consent_modal : false})
-        this.props.navigation.replace('Game')
+    clickLogout(){
+        Alert.alert(
+            "Headliners:",
+            "Are you sure to logout ?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                { 
+                    text: "Yes", 
+                    onPress: this.logout
+                }
+            ],
+            { cancelable: false }
+        );
+    }
+    componentDidMount() {
+        this.check()
+    }
+
+    async check() {
+        var token = await AsyncStorage.getItem('token')
+        if (token == null)
+            this.props.navigation.replace('Landing')
     }
 
     render() {
-        const ConsentModal = (
-            <Modal
-                animationType="none"
-                transparent={true}
-                visible={this.state.show_consent_modal}
-                onRequestClose={() => {
-                    this.setState({show_consent_modal : false});
-                }}
-            >
-                <View style = {styles.centeredView}>
-                    <View style = {styles.modalView}>
-                        <Text style = {{fontWeight : "bold", fontSize : 28}}>
-                            Headlines Phase 1
-                        </Text>
-                        <Text style = {{marginVertical : 30, color : "red", fontSize : 18}}>
-                            * News Headlines are being pulled from the most popular stations.
-                            Swipe left (provide a left arrow for emphasis) if you would not share the headline to your social media community or right 
-                            (provide a right arrow for emphasis) if you would share the headline. *
-                        </Text>
-                        <Button
-                            title = "Enter"
-                            onPress = {()=>this.onEnter()}
-                        />
-                    </View>
-                </View>
-            </Modal>
-        )
+
         return (
             <View style = {styles.container}>
-                <StatusBar backgroundColor="#0fa7ff" barStyle="light-content" />
-                <Text 
-                    style={styles.WelcomeText}
-                >
-                    Headliners
-   
-                </Text>
 
-                <View
-                    style={{
-                        borderBottomColor: "grey",
-                        borderBottomWidth: 3,
-                        borderRadius: 10,
-                        marginLeft : 30,
-                        marginRight : 30
-                    }}
-                />
-                <View
-                    style={{
-                        marginTop: 100,
-                        marginLeft: 40,
-                        marginRight: 40,
-                    }}
-                >
+                <StatusBar backgroundColor="black" barStyle="light-content" />
+
+                <View style={styles.header}>
+                    <Text style={{ fontSize: 22, color: "white"}}>Headliners</Text>
+                    <Icon name="log-out-outline" size={28} color="white" onPress={() => this.clickLogout()} />
+                </View>
+
+                <View style = {styles.body}>
                     <Button
                         title = "Click to enter in the game"
-                        onPress = {()=>this.setState({show_consent_modal : true})}
+                        onPress={() => this.props.navigation.replace('Game')}
                     />
                 </View>
-                <View
-                    style={{
-                        marginTop: 200,
-                        marginLeft: 40,
-                        marginRight: 40,
-                    }}
-                >
-                    <Button
-                        title="Logout"
-                        onPress={this.logout}
-                    />
+
+                <View style = {styles.footer}>
+                    <Text style = {{color : "white"}}>
+                        © 2020 Headliners. All rights reserved
+                    </Text>
                 </View>
-                {ConsentModal}
             </View>
         )
     }
@@ -108,34 +81,21 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "white"
     },
-    WelcomeText: {
-        textAlign: "center",
-        fontSize: 35,
-        paddingTop: 20,
-        paddingBottom: 10,
-        color: "blue"
+    header : {
+        flexDirection: "row", 
+        justifyContent: "space-between", 
+        backgroundColor: "#2b2b2b", 
+        padding: 10
     },
-    centeredView: {
+    body: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center",
-        marginTop: 10
+        alignItems: "center"
     },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        paddingVertical: 40,
-        paddingHorizontal : 30,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5
+    footer: {
+        backgroundColor: "#2b2b2b",
+        paddingVertical: 10,
+        alignItems : "center"
     }
 })
 

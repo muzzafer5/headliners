@@ -9,7 +9,7 @@ import LoadingScreen from './screens/auth/loading'
 import SignupScreen from './screens/auth/signup'
 import LoginScreen from './screens/auth/login'
 import GameScreen from './screens/game/game'
-import Test from './screens/auth/test'
+import Test from './screens/test/test'
 
 const Stack = createStackNavigator();
 

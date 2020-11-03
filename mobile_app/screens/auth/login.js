@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, StatusBar, Button, TextInput, TouchableOpacity } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
-
+import { login } from './ConnectServer';
 class Login extends Component {
 
     constructor() {
@@ -18,25 +18,20 @@ class Login extends Component {
             password: this.state.password
         }
         console.log(user)
-        fetch("http://10.0.2.2:5000/auth/login", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        }).then(res => res.json())
-            .then(async (data) => {
-                try {
-                    if (data.error)
-                        console.log(data.error)
-                    else {
-                        await AsyncStorage.setItem('token', data)
-                        this.props.navigation.replace('Home')
-                    }
-                } catch (e) {
-                    console.log("error", e)
+        login(user).then(async (data) => {
+            try {
+                if (data.error)
+                    console.log(data.error)
+                else {
+                    await AsyncStorage.setItem('token', data)
+                    this.props.navigation.replace('Home')
                 }
-            })
+            } catch (e) {
+                console.log("error", e)
+            }
+        }).catch(err=>{
+            console.log("error", err)
+        }) 
     }
 
     render() {

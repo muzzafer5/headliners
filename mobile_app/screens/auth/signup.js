@@ -23,7 +23,7 @@ class Signup extends Component {
             profession: "student"
         }
         console.log(newUser)
-        fetch("http://10.0.2.2:5000/auth/signup", {
+        fetch("https://iitj-app.herokuapp.com/auths/signup", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
