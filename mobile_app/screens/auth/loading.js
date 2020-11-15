@@ -5,6 +5,7 @@ import {
     ActivityIndicator,
     View,
     StyleSheet,
+    StatusBar
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -24,6 +25,7 @@ class Loading extends Component {
     render() {
         return (
             <View style={styles.loading}>
+                <StatusBar backgroundColor="black" barStyle="light-content" />
                 <ActivityIndicator size="large" color="blue" />
             </View>
         );

@@ -3,6 +3,7 @@ import { View, Text, Button, StatusBar, StyleSheet, Alert } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import Icon from 'react-native-vector-icons/Ionicons'
 
+
 class Home extends Component {
 
     constructor() {
@@ -20,6 +21,7 @@ class Home extends Component {
         })
     }
 
+    
     clickLogout(){
         Alert.alert(
             "Headliners:",

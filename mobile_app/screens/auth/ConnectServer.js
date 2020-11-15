@@ -14,3 +14,19 @@ export const login = user => {
         })
 
 }
+
+export const signup = newUser => {
+    return fetch("https://iitj-app.herokuapp.com/auths/signup", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newUser)
+    }).then(response => response.json()).then(data => {
+        return data
+    })
+        .catch(err => {
+            return { error: "error" }
+        })
+
+}

@@ -1,42 +1,31 @@
 import React, { Component } from "react";
-import {View, StyleSheet} from "react-native";
+import {View,ScrollView, StyleSheet} from "react-native";
 import MultiSelect from 'react-native-multiple-select';
-import { ThemeConsumer } from 'react-native-elements'
 
-const items = [{
-    id: '92iijs7yta',
-    name: 'Ondo'
-}, {
-    id: 'a0s0a8ssbsd',
-    name: 'Ogun'
-}, {
-    id: '16hbajsabsd',
-    name: 'Calabar'
-}, {
-    id: 'nahs75a5sg',
-    name: 'Lagos'
-}, {
-    id: '667atsas',
-    name: 'Maiduguri'
-}, {
-    id: 'hsyasajs',
-    name: 'Anambra'
-}, {
-    id: 'djsjudksjd',
-    name: 'Benue'
-}, {
-    id: 'sdhyaysdj',
-    name: 'Kaduna'
-}, {
-    id: 'suudydjsjd',
-    name: 'Abuja'
-}
+const cultural_values_options = [
+    { value: 'Importance of Individual Goals', label: 'Importance of Individual Goals' },
+    { value: 'Importance of Group Goals', label: 'Importance of Group Goals' },
+    { value: 'Hierarchical Decision Making', label: 'Hierarchical Decision Making' },
+    { value: 'Collaborative Decision Making', label: 'Collaborative Decision Making' },
+    { value: 'Structured Rules', label: 'Structured Rules' },
+    { value: 'Being Flexible in situations', label: 'Being Flexible in situations' },
+    { value: 'Focus on Task Completion', label: 'Focus on Task Completion' },
+    { value: 'Focus on Relationships', label: 'Focus on Relationships' },
+    { value: 'Place focus on long-term benefits', label: 'Place focus on long-term benefits' },
+    { value: 'Being quick in planning', label: 'Being quick in planning' },
+    { value: 'Indirect Communication', label: 'Indirect Communication' },
+    { value: 'Explicit communication', label: 'Explicit communication' },
+    { value: 'Separate work and personal activities', label: 'Separate work and personal activities' },
+    { value: 'A blending of work life and personal life', label: 'A blending of work life and personal life' },
+    { value: 'Cultivate nurturing behaviors', label: 'Cultivate nurturing behaviors' },
+    { value: 'Seek achievement behaviors', label: 'Seek achievement behaviors' }
 ];
 
 class Test extends Component {
 
     state = {
-        selectedItems: []
+        selectedItems: [],
+        cultural_values_1: [],
     };
 
     onSelectedItemsChange = selectedItems => {
@@ -46,31 +35,26 @@ class Test extends Component {
 
     render() {
 
-        const { selectedItems } = this.state
-
         return (
-            <View style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1 }} nestedScrollEnabled = {true}>
                 <MultiSelect
-                    items={items}
-                    uniqueKey="id"
+                    items={cultural_values_options}
+                    uniqueKey="value"
                     ref={(component) => { this.multiSelect = component }}
-                    onSelectedItemsChange={this.onSelectedItemsChange}
-                    selectedItems={selectedItems}
+                    onSelectedItemsChange={(items)=>this.setState({cultural_values_1 : items})}
+                    selectedItems={this.state.cultural_values_1}
                     selectText="Cultural values"
                     searchInputPlaceholderText="Search Values..."
                     altFontFamily="ProximaNova-Light"
-                    tagRemoveIconColor="blue"
-                    tagBorderColor="red"
-                    tagTextColor="black"
-                    selectedItemTextColor="blue"
+                    selectedItemTextColor="green"
                     selectedItemIconColor="green"
-                    itemTextColor="brown"
-                    displayKey="name"
-                    searchInputStyle={{ color: 'green' }}
-                    submitButtonColor="yellow"
+                    itemTextColor="grey"
+                    displayKey="label"
+                    hideTags = {true}
+                    submitButtonColor="#1f5c99"
                     submitButtonText="Submit"
                 />
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -83,3 +67,4 @@ const styles = StyleSheet.create({
     }
 });
 export default Test;
+

@@ -1,84 +1,101 @@
-import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
-import MultiSelect from 'react-native-multiple-select';
+import React from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableHighlight, Dimensions } from 'react-native';
 
-const items = [{
-    id: '92iijs7yta',
-    name: 'Ondo'
-}, {
-    id: 'a0s0a8ssbsd',
-    name: 'Ogun'
-}, {
-    id: '16hbajsabsd',
-    name: 'Calabar'
-}, {
-    id: 'nahs75a5sg',
-    name: 'Lagos'
-}, {
-    id: '667atsas',
-    name: 'Maiduguri'
-}, {
-    id: 'hsyasajs',
-    name: 'Anambra'
-}, {
-    id: 'djsjudksjd',
-    name: 'Benue'
-}, {
-    id: 'sdhyaysdj',
-    name: 'Kaduna'
-}, {
-    id: 'suudydjsjd',
-    name: 'Abuja'
-}
-];
+var deviceHeight = Dimensions.get("window").height;
 
-class Test extends Component {
-
-    state = {
-        selectedItems: []
-    };
-
-    onSelectedItemsChange = selectedItems => {
-        this.setState({ selectedItems });
-        console.log(this.state.selectedItems)
-    };
+class MyListItem extends React.PureComponent {
 
     render() {
-
-        const { selectedItems } = this.state
-
         return (
             <View style={{ flex: 1 }}>
-                <MultiSelect
-                    items={items}
-                    uniqueKey="id"
-                    ref={(component) => { this.multiSelect = component }}
-                    onSelectedItemsChange={this.onSelectedItemsChange}
-                    selectedItems={selectedItems}
-                    selectText="Cultural values"
-                    searchInputPlaceholderText="Search Values..."
-                    altFontFamily="ProximaNova-Light"
-                    tagRemoveIconColor="blue"
-                    tagBorderColor="red"
-                    tagTextColor="black"
-                    selectedItemTextColor="blue"
-                    selectedItemIconColor="green"
-                    itemTextColor="brown"
-                    displayKey="name"
-                    searchInputStyle={{ color: 'green' }}
-                    submitButtonColor="yellow"
-                    submitButtonText="Submit"
+                <TouchableHighlight onPress={this.props.onPress.bind(this)} underlayColor='#616161'>
+                    <Text style={this.props.style}>{this.props.item.key}</Text>
+                </TouchableHighlight>
+            </View>
+        );
+    }
+}
+
+export default class MultiSelect extends React.Component {
+    constructor(props) {
+        super(props);
+        var selectedItemsObj = {};
+        if (this.props.selectedItems) {
+            var items = this.props.selectedItems.split(',');
+            items.forEach(function (item) {
+                selectedItemsObj[item] = true;
+            });
+        }
+        this.state = {
+            selectedItems: selectedItemsObj
+        };
+    }
+
+    onItemPressed(item) {
+        var oldSelectedItems = this.state.selectedItems;
+        var itemState = oldSelectedItems[item.key];
+        if (!itemState) {
+            oldSelectedItems[item.key] = true;
+        }
+        else {
+            var newState = itemState ? false : true;
+            oldSelectedItems[item.key] = newState;
+        }
+        this.setState({
+            selectedItems: oldSelectedItems,
+        });
+        var arrayOfSelectedItems = [];
+        var joinedItems = Object.keys(oldSelectedItems);
+        joinedItems.forEach(function (key) {
+            if (oldSelectedItems[key])
+                arrayOfSelectedItems.push(key);
+        });
+        var selectedItem = null;
+        if (arrayOfSelectedItems.length > 0)
+            selectedItem = arrayOfSelectedItems.join();
+        this.props.onValueChange(selectedItem);
+    }
+
+    getStyle(item) {
+        try {
+            console.log(this.state.selectedItems[item.key]);
+            return this.state.selectedItems[item.key] ? styles.itemTextSelected : styles.itemText;
+        } catch (e) {
+            return styles.itemText;
+        }
+    }
+
+    _renderItem = ({ item }) => {
+        return (<MyListItem style={this.getStyle(item)} onPress={this.onItemPressed.bind(this, item)} item={item} />);
+    }
+    render() {
+        return (
+            <View style={styles.rootView}>
+                <FlatList style={styles.list}
+                    initialNumToRender={10}
+                    extraData={this.state}
+                    data={this.props.data}
+                    renderItem={this._renderItem.bind(this)}
                 />
             </View>
         );
     }
 }
+
 const styles = StyleSheet.create({
-    centeredView: {
+    rootView: {
+        height: deviceHeight / 2
+    },
+    itemText: {
+        padding: 8,
+        color: "#fff"
+    },
+    itemTextSelected: {
+        padding: 8,
+        color: "#fff",
+        backgroundColor: '#757575'
+    },
+    list: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
     }
 });
-export default Test;

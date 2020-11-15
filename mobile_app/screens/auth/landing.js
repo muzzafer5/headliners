@@ -15,7 +15,6 @@ class Landing extends Component {
     }
 
     render() {
-
         return (
             <View style={styles.container}>
 
@@ -38,7 +37,7 @@ class Landing extends Component {
                                 style={styles.button}
                                 onPress={() => this.props.navigation.navigate('Login')}
                             >
-                                <Text style={{ fontSize: 21, color: "white" }}>Login</Text>
+                                <Text style={{ fontSize: 18, color: "white", paddingHorizontal: 25}}>Login</Text>
                             </TouchableOpacity>
                         </View>
                         <View >
@@ -46,7 +45,7 @@ class Landing extends Component {
                                 style={styles.button}
                                 onPress={() => this.props.navigation.navigate('Signup')}
                             >
-                                <Text style={{ fontSize: 21, color: "white", }}>Signup</Text>
+                                <Text style={{ fontSize: 18, color: "white", paddingHorizontal : 20}}>Signup</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -93,13 +92,13 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.1,
         shadowRadius: 1.2,
-        elevation: 6
+        elevation: 2
     },
     button: {
-        alignItems: "center",
         backgroundColor: "#1290ff",
-        paddingVertical: 8,
-        borderRadius : 30
+        paddingVertical: 5,
+        alignSelf : "center",
+        elevation : 3
     }
 })
 

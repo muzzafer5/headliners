@@ -7,10 +7,32 @@ import {
     Text,
     Button,
     Modal,
-    Image
+    Image,
+    ScrollView
 } from 'react-native';
 import { fetch_news } from './ConnectServer'
-import { TextInput } from 'react-native-gesture-handler';
+import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
+import RNPickerSelect from 'react-native-picker-select';
+import MultiSelect from 'react-native-multiple-select';
+
+const cultural_values_options = [
+    { value: 'Importance of Individual Goals', label: 'Importance of Individual Goals' },
+    { value: 'Importance of Group Goals', label: 'Importance of Group Goals' },
+    { value: 'Hierarchical Decision Making', label: 'Hierarchical Decision Making' },
+    { value: 'Collaborative Decision Making', label: 'Collaborative Decision Making' },
+    { value: 'Structured Rules', label: 'Structured Rules' },
+    { value: 'Being Flexible in situations', label: 'Being Flexible in situations' },
+    { value: 'Focus on Task Completion', label: 'Focus on Task Completion' },
+    { value: 'Focus on Relationships', label: 'Focus on Relationships' },
+    { value: 'Place focus on long-term benefits', label: 'Place focus on long-term benefits' },
+    { value: 'Being quick in planning', label: 'Being quick in planning' },
+    { value: 'Indirect Communication', label: 'Indirect Communication' },
+    { value: 'Explicit communication', label: 'Explicit communication' },
+    { value: 'Separate work and personal activities', label: 'Separate work and personal activities' },
+    { value: 'A blending of work life and personal life', label: 'A blending of work life and personal life' },
+    { value: 'Cultivate nurturing behaviors', label: 'Cultivate nurturing behaviors' },
+    { value: 'Seek achievement behaviors', label: 'Seek achievement behaviors' }
+];
 
 class Game extends Component {
     constructor() {
@@ -25,12 +47,12 @@ class Game extends Component {
             show_feadback: false,
             shared: [],
             shared_with_media: [],
-            cultural_values_1: null,
-            cultural_values_2: null,
-            cultural_values_3: null,
-            cultural_values_4: null,
-            cultural_values_5: null,
-            cultural_values_6: null,
+            cultural_values_1: [],
+            cultural_values_2: [],
+            cultural_values_3: [],
+            cultural_values_4: [],
+            cultural_values_5: [],
+            cultural_values_6: [],
             fake_news_1: '',
             fake_news_2: '',
             fake_news_3: '',
@@ -38,12 +60,12 @@ class Game extends Component {
             fake_news_5: '',
             fake_news_6: '',
             feedback: [],
+            selectedItems: [],
             news: {}
         }
         this.onCloseModal = this.onCloseModal.bind(this)
         this.onNextModal = this.onNextModal.bind(this)
         this.onShare = this.onShare.bind(this)
-        this.onShare2 = this.onShare2.bind(this)
     }
 
     componentDidMount(){
@@ -59,30 +81,41 @@ class Game extends Component {
         }
     }
 
+    onSelectedItemsChange = selectedItems => {
+        this.setState({ selectedItems });
+        console.log(this.state.selectedItems)
+    };
+
     onCloseModal() {
-        this.props.navigation.replace('Home')
+        this.setState({
+            show : -1,
+            show_headlines: false,
+            show_headlines2: false,
+            show_chart: false,
+            show_chart2: false,
+            show_feadback: false
+        }, this.props.navigation.replace('Home'))
     }
 
     onShare() {
         var title = this.state.news.title
-        var shared_news = this.state.shared
-        shared_news.push(title)
-        this.setState({ shared: shared_news })
-        this.onNextModal()
-    }
+        if(this.state.show < 7){
+            var shared_news = this.state.shared
+            shared_news.push(title)
+            this.setState({ shared: shared_news })
+            this.onNextModal()
+        }
+        else{
+            var shared_news = this.state.shared_with_media
+            shared_news.push(title)
+            this.setState({ shared_with_media: shared_news })
+            this.onNextModal()
+        }
 
-
-    onShare2() {
-        var title = this.state.news.title
-        var shared_news = this.state.shared_with_media
-        shared_news.push(title)
-        this.setState({ shared_with_media: shared_news })
-        this.onNextModal()
     }
 
     onNextModal() {
         if (this.state.show === 0) {
-            this.setState({ show_headlines: true })
             fetch_news({ category: 'sports', token: this.state.token }).then(res => {
                 if (res.error) {
                     console.log("error")
@@ -95,6 +128,7 @@ class Game extends Component {
                         category: 'Sports',
                         index: '1'
                     }
+                    this.setState({ show_headlines: true })
                     this.setState({ news: content })
                     var temp = this.state.feedback
                     temp.push(content)
@@ -154,7 +188,7 @@ class Game extends Component {
                         urlToImage: res.urlToImage,
                         category: 'Technology',
                         index: '4'
-                    }
+                    }           
                     this.setState({ news: content })
                     var temp = this.state.feedback
                     temp.push(content)
@@ -244,7 +278,7 @@ class Game extends Component {
 
         const ConsentModal = (
             <Modal
-                animationType="none"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.show === 0}
                 onRequestClose={this.onCloseModal}
@@ -302,7 +336,7 @@ class Game extends Component {
 
         const ConsentModal2 = (
             <Modal
-                animationType="none"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.show === 8}
                 onRequestClose={this.onCloseModal}
@@ -361,7 +395,7 @@ class Game extends Component {
 
         const headline = (
             <Modal
-                animationType="none"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.show_headlines}
                 onRequestClose={this.onCloseModal}
@@ -393,30 +427,6 @@ class Game extends Component {
                                     </View>
                                 ) : <View/>}
                         </View>
-                        <View
-                            style={{
-                                borderBottomColor: "#f2f2f2",
-                                borderBottomWidth: 1,
-                                alignSelf: 'stretch',
-                                marginVertical: 15
-                            }}
-                        />
-                        <View style={{ flexDirection: 'row', justifyContent: "space-around" }}>
-                            <View >
-                                <Button
-                                    title="Don't Share"
-                                    color="black"
-                                    onPress={this.onNextModal}
-                                />
-                            </View>
-                            <View >
-                                <Button
-                                    title=" Share "
-                                    color="black"
-                                    onPress={this.onShare}
-                                />
-                            </View>
-                        </View>
                     </View>
                 </View>
             </Modal>
@@ -424,7 +434,7 @@ class Game extends Component {
 
         const headline2 = (
             <Modal
-                animationType="none"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.show_headlines2}
                 onRequestClose={this.onCloseModal}
@@ -457,30 +467,6 @@ class Game extends Component {
                                     </View>
                                 ) : ''}
                         </View>
-                        <View
-                            style={{
-                                borderBottomColor: "#f2f2f2",
-                                borderBottomWidth: 1,
-                                alignSelf: 'stretch',
-                                marginVertical: 15
-                            }}
-                        />
-                        <View style={{ flexDirection: 'row', justifyContent: "space-around" }}>
-                            <View >
-                                <Button
-                                    title="Don't Share"
-                                    color="black"
-                                    onPress={this.onNextModal}
-                                />
-                            </View>
-                            <View >
-                                <Button
-                                    title=" Share "
-                                    color="black"
-                                    onPress={this.onShare2}
-                                />
-                            </View>
-                        </View>
                     </View>
                 </View>
             </Modal>
@@ -488,7 +474,7 @@ class Game extends Component {
 
         const pieChart = (
             <Modal
-                animationType="none"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.show_chart}
                 onRequestClose={this.onCloseModal}
@@ -497,7 +483,7 @@ class Game extends Component {
                     <View style={styles.modalView}>
                         <View style={{ alignItems: "center" }}>
                             <Text style={{ fontWeight: "bold", fontSize: 28 }}>
-                                Chart (Phase 1)
+                                Phase 1
                             </Text>
                         </View>
                         <View
@@ -508,11 +494,36 @@ class Game extends Component {
                                 marginVertical: 15
                             }}
                         />
-                        <View style={{ paddingHorizontal: 15 }}>
-                            <Text style={{ fontSize: 14 }}>
-                                {this.state.shared.length}
-                            </Text>
+                        <View style = {{flexDirection : "row", justifyContent : "center", paddingHorizontal : 10}}>
+                            <View style={{flex : 6 - this.state.shared.length, height: 200, backgroundColor : "red", alignItems: "center",justifyContent : "center" }}>
+                                {
+                                    this.state.shared.length === 6 ? <Text></Text> :  
+                                    <View style={{ justifyContent:"center", alignItems : "center" }}>
+                                            <Text style={{ fontSize: 15, color: "#01402b"}}>
+                                            Not shared
+                                        </Text>
+                                        <Text style={{ fontSize: 30, color : "white"}}>
+                                                {6 - this.state.shared.length}
+                                        </Text>                            
+                                    </View>
+                                }
+
+                            </View>
+                            <View style={{ flex: this.state.shared.length, height: 200, backgroundColor: "green", alignItems: "center", justifyContent : "center" }}>
+                                {
+                                    this.state.shared.length === 0 ? <Text></Text> :
+                                        <View style={{ justifyContent: "center", alignItems: "center" }}>
+                                            <Text style={{ fontSize: 15, color: "brown" }}>
+                                                Shared
+                                        </Text>
+                                            <Text style={{ fontSize: 30, color: "white" }}>
+                                                {this.state.shared.length}
+                                            </Text>
+                                        </View>
+                                }
+                            </View>                     
                         </View>
+
                         <View
                             style={{
                                 borderBottomColor: "#f2f2f2",
@@ -521,10 +532,12 @@ class Game extends Component {
                                 marginVertical: 15
                             }}
                         />
-                        <Button
-                            title="Move to phase 2"
-                            onPress={this.onNextModal}
-                        />
+                        <View style = {{alignItems : "center"}}>
+                            <Button
+                                title="Move to phase 2"
+                                onPress={this.onNextModal}
+                            />
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -532,7 +545,7 @@ class Game extends Component {
 
         const pieChart2 = (
             <Modal
-                animationType="none"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.show_chart2}
                 onRequestClose={this.onCloseModal}
@@ -541,7 +554,7 @@ class Game extends Component {
                     <View style={styles.modalView}>
                         <View style={{ alignItems: "center" }}>
                             <Text style={{ fontWeight: "bold", fontSize: 28 }}>
-                                Chart (Phase 2)
+                                Phase 2
                             </Text>
                         </View>
                         <View
@@ -552,11 +565,36 @@ class Game extends Component {
                                 marginVertical: 15
                             }}
                         />
-                        <View style={{ paddingHorizontal: 15 }}>
-                            <Text style={{ fontSize: 14 }}>
-                                {this.state.shared_with_media.length}
-                            </Text>
+                        <View style={{ flexDirection: "row", justifyContent: "center", paddingHorizontal: 10 }}>
+                            <View style={{ flex: 6 - this.state.shared_with_media.length, height: 200, backgroundColor: "red", alignItems: "center", justifyContent: "center" }}>
+                                {
+                                    this.state.shared_with_media.length === 6 ? <Text></Text> :
+                                        <View style={{ justifyContent: "center", alignItems: "center" }}>
+                                            <Text style={{ fontSize: 15, color: "#01402b" }}>
+                                                Not shared
+                                        </Text>
+                                            <Text style={{ fontSize: 30, color: "white" }}>
+                                                {6 - this.state.shared_with_media.length}
+                                            </Text>
+                                        </View>
+                                }
+
+                            </View>
+                            <View style={{ flex: this.state.shared_with_media.length, height: 200, backgroundColor: "green", alignItems: "center", justifyContent: "center" }}>
+                                {
+                                    this.state.shared_with_media.length === 0 ? <Text></Text> :
+                                        <View style={{ justifyContent: "center", alignItems: "center" }}>
+                                            <Text style={{ fontSize: 15, color: "brown" }}>
+                                                Shared
+                                        </Text>
+                                            <Text style={{ fontSize: 30, color: "white" }}>
+                                                {this.state.shared_with_media.length}
+                                            </Text>
+                                        </View>
+                                }
+                            </View>
                         </View>
+
                         <View
                             style={{
                                 borderBottomColor: "#f2f2f2",
@@ -565,10 +603,12 @@ class Game extends Component {
                                 marginVertical: 15
                             }}
                         />
-                        <Button
-                            title="Done"
-                            onPress={this.onNextModal}
-                        />
+                        <View style={{ alignItems: "center" }}>
+                            <Button
+                                title="Done"
+                                onPress={this.onNextModal}
+                            />
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -576,15 +616,19 @@ class Game extends Component {
 
         const feedback = (
             <Modal
-                animationType="none"
+                animationType="fade"
                 transparent={true}
                 visible={this.state.show_feadback}
                 onRequestClose={this.onCloseModal}
             >
                 <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
+                    <View style={{
+                        backgroundColor: "white",
+                        width: "100%",
+                    }}>
+                        <ScrollView>
                         <View style={{ alignItems: "center" }}>
-                            <Text style={{ fontWeight: "bold", fontSize: 28 }}>
+                            <Text style={{ fontWeight: "bold", fontSize: 28, marginTop : 15 }}>
                                 Feedback
                             </Text>
                         </View>
@@ -596,40 +640,90 @@ class Game extends Component {
                                 marginVertical: 15
                             }}
                         />
+
                         {
                             this.state.feedback ? (
                                 this.state.feedback.map((data,index)=>(
-                                   <View key={index}> 
-                                       <Text>{data.category}</Text>
+                                   <View key={index} style = {styles.feedback}> 
+                                       <Text style = {{fontSize : 25, marginTop : 15, marginBottom : 20}}>{data.category}</Text>
+                                        <Text style = {{fontSize : 16}}>News Title</Text>
+                                        <Text style={{ fontSize: 16, color: "grey", fontWeight : "500" }}>{data.title}</Text>
+
+                                        <Text style={{ fontSize: 16, marginTop: 15 }}>
+                                            Involved Cultural values
+                                        </Text>
+                                        <View style={{ marginTop: 5, padding: 5, borderWidth: 1, borderColor : '#e8e8e8' }}>
+                                            <MultiSelect
+                                                items={cultural_values_options}
+                                                uniqueKey="value"
+                                                ref={(component) => { this.multiSelect = component }}
+                                                onSelectedItemsChange={(items) => this.setState({ ["cultural_values_" + data.index]: items })}
+                                                selectedItems={this.state["cultural_values_" + data.index]}
+                                                selectText="Select..."
+                                                searchInputPlaceholderText="Search Values..."
+                                                altFontFamily="ProximaNova-Light"
+                                                selectedItemTextColor="green"
+                                                selectedItemIconColor="green"
+                                                itemTextColor="grey"
+                                                displayKey="label"
+                                                hideTags={true}
+                                                hideSubmitButton={true}
+                                            />
+                                        </View>
+
+                                        <Text style = {{fontSize : 16, marginTop : 15}}>
+                                            Will you mark this news fake?
+                                        </Text>
+                                        <View
+                                            style={styles.pickerInput}
+                                        >
+                                            <RNPickerSelect
+                                                onValueChange={(value) => this.setState({ ['fake_news_' + data.index]: value })}
+                                                items={[
+                                                    { label: 'Select..', value: '', color: "#dedede" },
+                                                    { label: 'Yes', value: 'yes', color: "grey" },
+                                                    { label: 'No', value: 'no', color: "grey" }
+                                                ]}
+                                                placeholder={{}}
+                                                value={this.state["fake_news_" + data.index]} 
+                                            />
+                                        </View>
+ 
                                     </View>
                                 ))
                             ):<View/>
                         }
-                        <View
-                            style={{
-                                borderBottomColor: "#f2f2f2",
-                                borderBottomWidth: 1,
-                                alignSelf: 'stretch',
-                                marginVertical: 15
-                            }}
-                        />
-                        <Button
-                            title="Submit"
-                            onPress={this.onCloseModal}
-                        />
+                        <View style={{ alignItems: "flex-start", marginVertical: 20, paddingHorizontal: 20 }}>
+                            <Button
+                                title="   Submit   "
+                                onPress={this.onCloseModal}
+                            />
+                        </View>
+                        </ScrollView>
                     </View>
                 </View>
             </Modal>
         )
 
+        const config = {
+            velocityThreshold: 0.3,
+            directionalOffsetThreshold: 80
+        };
+
         return (
             <View style={styles.container}>
+                <GestureRecognizer
+                    onSwipeLeft={this.onNextModal}
+                    onSwipeRight={this.onShare}
+                    config={config}
+                >   
+                    {headline}
+                    {headline2}
+                </GestureRecognizer>
                 {ConsentModal}
-                {headline}
                 {pieChart}
                 {ConsentModal2}
                 {pieChart2}
-                {headline2}
                 {feedback}
             </View>
         );
@@ -650,17 +744,36 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     modalView: {
-        marginHorizontal: 10,
         backgroundColor: "white",
-        paddingVertical: 15,
+        paddingTop: 15,
+        paddingBottom : 25,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 2
         },
+        width : "95%",
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 10
+    },
+    pickerInput: {
+        borderWidth: 1,
+        height: 45,
+        marginTop: 5,
+        marginBottom : 20,
+        borderColor: '#e8e8e8'
+    },
+    feedback : {
+        paddingHorizontal : 10,
+        marginHorizontal: 10,
+        marginVertical: 5,
+        borderRadius: 10,
+        elevation: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 1,  
     }
 
 })
