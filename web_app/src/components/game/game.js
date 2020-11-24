@@ -102,7 +102,7 @@ class Game extends Component {
                     title: res.title,
                     description: res.description,
                     urlToImage: res.urlToImage,
-                    category: 'Education',
+                    category: 'Science',
                     index: '3'
                 }
                 this.setState({ news: content })
