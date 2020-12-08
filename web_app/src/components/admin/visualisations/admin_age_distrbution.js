@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {fetch_users} from './ConnectServer'
+import {fetch_users} from '../ConnectServer'
 import {Line} from 'react-chartjs-2'
 
 class AdminAgeDistribution extends Component {

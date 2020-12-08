@@ -1,7 +1,7 @@
 const User = require('../../auth/models/user')
 
 function FetchUser(req, res) { 
-    User.find({}).select("-_id -__v -password -created_at")
+    User.find({}).select("-__v -password")
     .then(users=>{
         res.json(users)
     })

@@ -1,99 +1,123 @@
-const NewsAPI = require('newsapi');
-const { newsApiKey2 } = require('../../../config/keys');
-const News = require('../models/news')
+const News = require('../models/news');
+const AllNews = require('../../game/models/all_news')
+const User = require('../../auth/models/user');
+const { newsApiKey1 } = require('../../../config/keys');
+const request = require('request');
 
-const newsApi = new NewsAPI(newsApiKey2);
-
-function Fetch(req, res) {  
-    News.findOne({ country: 'in', category: req.body.category}).then(result => {
-        if(result){
-            var diff = Date.now() - result.created_at
-            diff = diff/60000
-            diff = Math.floor(diff)
-            if(diff>=60){
-                News.deleteOne({ country: 'in', category: req.body.category}).then(res=>{
-                    //console.log("done")
-                })
-                newsApi.v2.topHeadlines({
-                    category: req.body.category,
-                    language: 'en',
-                    country: 'in'
-                }).then(response => {
+function Fetch(req,res){
+    User.findById(req.user._id).then(user=>{
+        if(user.country_code === 'gen'){
+            var url = 'https://gnews.io/api/v4/top-headlines?' + 'topic=' + req.body.category + '&lang=' + user.lang_code + '&token=' + newsApiKey1
+        }
+        else{
+            var url = 'https://gnews.io/api/v4/top-headlines?' + 'topic=' + req.body.category + '&lang=' + user.lang_code + '&country=' + user.country_code + '&token=' + newsApiKey1
+        }
+        var options = {
+            'method': 'GET',
+            'url': url,
+            'headers': {
+            }
+        };
+        News.findOne({country_code: user.country_code, lang_code : user.lang_code, category : req.body.category }).then(article=>{
+            if(article){
+                var diff = Date.now() - article.created_at
+                diff = diff / 60000
+                diff = Math.floor(diff)
+                if (diff >= 600) {
+                    request(options, async function (error, response) {
+                        if (error) {
+                            res.json(error)
+                            return;
+                        }
+                        response = response.body
+                        response = JSON.parse(response)
+                        news = response.articles
+                        var news_list = []
+                        News.deleteOne({ country: user.country_code, lang_code: user.lang_code, category: req.body.category }).then(res => {
+                        })
+                        for (var i = 0; i < news.length; i++) {
+                            var data = {
+                                category: req.body.category,
+                                country_code: user.country_code,
+                                lang_code: user.lang_code,
+                                article: news[i]
+                            }
+                            await AllNews.create(data).then(result => {
+                                var obj = news[i]
+                                obj.id = result._id
+                                news_list.push(obj)
+                                if (i == 0)
+                                    res.json(obj)
+                            })
+                        }
+                        var news_data = {
+                            category: req.body.category,
+                            country_code: user.country_code,
+                            lang_code: user.lang_code,
+                            news: news_list
+                        }
+                        News.create(news_data)
+                            .then(data => {
+                            })
+                            .catch(err => {
+                                console.log(err)
+                            })
+                    })
+                }
+                else {
+                    var fetched_news = article.news;
+                    var sz = fetched_news.length;
+                    sz = sz * diff;
+                    sz = sz / 600;
+                    sz = Math.floor(sz)
+                    //console.log(sz)
+                    res.json(fetched_news[sz])
+                }
+            }
+            else{
+                request(options,async function (error, response) {
+                    if (error){
+                        res.json(error)
+                        return ;
+                    }
+                    response = response.body
+                    response = JSON.parse(response)
                     news = response.articles
                     var news_list = []
+
                     for (var i = 0; i < news.length; i++) {
-                        if (news[i].description != null && news[i].description != '' && news[i].urlToImage != null && news[i].urlToImage != '') {
-                            var obj = {
-                                title: news[i].title,
-                                description: news[i].description,
-                                urlToImage: news[i].urlToImage
-                            }
-                            news_list.push(obj)
+                        var data = {
+                            category: req.body.category,
+                            country_code: user.country_code,
+                            lang_code: user.lang_code,
+                            article: news[i]
                         }
+                        await AllNews.create(data).then(result => {
+                            var obj = news[i]
+                            obj.id = result._id
+                            news_list.push(obj)
+                            if(i==0)
+                                res.json(obj)
+                        })
                     }
+                    
                     var news_data = {
                         category: req.body.category,
-                        country: 'in',
+                        country_code: user.country_code,
+                        lang_code: user.lang_code,
                         news: news_list
                     }
                     News.create(news_data)
                         .then(data => {
-                            res.json(data.news[0])
                         })
                         .catch(err => {
-                            return res.status(422).json({ error: err })
+                            console.log(err)
                         })
-                }).catch(err => {
-                    return res.status(422).json({ error: err })
                 })
             }
-            else{
-                var fetched_news = result.news;
-                var sz = fetched_news.length;
-                sz = sz*diff;
-                sz = sz/60;
-                sz = Math.floor(sz)
-                //console.log(sz)
-                res.json(fetched_news[sz])
-            }   
-        }
-        else{
-            newsApi.v2.topHeadlines({
-                category: req.body.category,
-                language: 'en',
-                country: 'in'
-            }).then(response => {
-                news = response.articles
-                var news_list = []
-                for (var i=0;i<news.length;i++){
-                    if (news[i].description != null && news[i].description != '' && news[i].urlToImage != null && news[i].urlToImage != ''){
-                        var obj = {
-                            title : news[i].title,
-                            description : news[i].description,
-                            urlToImage : news[i].urlToImage
-                        }
-                        news_list.push(obj)
-                    }
-                }
-                var news_data =  {
-                    category : req.body.category,
-                    country : 'in',
-                    news : news_list
-                }
-                News.create(news_data)
-                    .then(data => {
-                        res.json(data.news[0])
-                    })
-                    .catch(err => {
-                        return res.status(422).json({ error: err })
-                    })
-            }).catch(err => {
-                console.log("error")
-                return res.status(422).json({ error: err })
-            })
-        }
-    }).catch(err=>{
-        res.status(422).json({ error: err })
+        })
+    }).catch(err => {
+        return res.status(422).json({ error: err })
     })
 }
 

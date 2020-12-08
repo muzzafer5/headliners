@@ -34,6 +34,7 @@ class Signup extends Component {
       profession: '',
       gender: '',
       age: '',
+      language : '',
       cultural_values: null,
       errors: {}
     }
@@ -46,18 +47,23 @@ class Signup extends Component {
   }
   onSubmit(e) {
     e.preventDefault()
-    const newUser = {
-      username: this.state.username,
-      password: this.state.password,
-      country: this.state.country,
-      profession: this.state.profession,
-      gender: this.state.gender,
-      age: this.state.age,
-      cultural_values: this.state.cultural_values
-    }
+    var cult = this.state.cultural_values
+    var new_cult = []
     if (this.state.cultural_values === null || this.state.cultural_values.length === 0)
       alert("Choose at least one cultural values")
     else {
+      for (var i = 0; i < cult.length; i++)
+        new_cult.push(cult[i].value)
+      const newUser = {
+        username: this.state.username,
+        password: this.state.password,
+        country: this.state.country,
+        profession: this.state.profession,
+        gender: this.state.gender,
+        age: this.state.age,
+        language: this.state.language,
+        cultural_values: new_cult
+      }
       signup(newUser).then(res => {
         if (res) {
           this.props.history.push(`/auth/login`)
@@ -122,6 +128,39 @@ class Signup extends Component {
                   <option value='' disabled></option>
                   <option value='Female'>Female</option>
                   <option value='Male'>Male</option>
+                </select>
+              </div>
+              <div className="form-group my-3 mx-3">
+                <label>Prefered Language (News articles)*</label>
+                <select
+                  className="form-control"
+                  name="language"
+                  required
+                  value={this.state.language}
+                  onChange={this.onChange} >
+                  <option value='' disabled></option>
+                  <option value='Arabic'>Arabic</option>
+                  <option value='German'>German</option>
+                  <option value='Greek'>Greek</option>
+                  <option value='English'>English</option>
+                  <option value='Spanish'>Spanish</option>
+                  <option value='French'>French</option>
+                  <option value='Hebrew'>Hebrew</option>
+                  <option value='Hindi'>Hindi</option>
+                  <option value='Italian'>Italian</option>
+                  <option value='Japanese'>Japanese</option>
+                  <option value='Malayalam'>Malayalam</option>
+                  <option value='Marathi'>Marathi</option>
+                  <option value='Dutch'>Dutch</option>
+                  <option value='Norwegian'>Norwegian</option>
+                  <option value='Portuguese'>Portuguese</option>
+                  <option value='Romanian'>Romanian</option>
+                  <option value='Russian'>Russian</option>
+                  <option value='Swedish'>Swedish</option>
+                  <option value='Tamil'>Tamil</option>
+                  <option value='Telugu'>Telugu</option>
+                  <option value='Ukrainian'>Ukrainian</option>
+                  <option value='Chinese'>Chinese</option>
                 </select>
               </div>
               <div className="form-group my-3 mx-3">
@@ -435,7 +474,7 @@ class Signup extends Component {
                   required></input>
                 <label className="form-check-label">
                   <b>Agree</b>
-              </label>
+                </label>
               </div>
               <div className="my-3 mx-3">
                 <button type="submit" className="btn btn-primary px-5">Signup</button>

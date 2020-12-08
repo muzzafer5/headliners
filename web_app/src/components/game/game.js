@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { fetch_news } from './ConnectServer'
+import { fetch_news, save_game } from './ConnectServer'
 import { Button, Modal } from 'react-bootstrap'
 import { CanvasJSChart } from 'canvasjs-react-charts'
 import MultiSelect from 'react-multi-select-component'
@@ -17,18 +17,21 @@ class Game extends Component {
             show_feadback: false,
             shared: [],
             shared_with_media: [],
+            time: [],
+            time_with_media: [],
             cultural_values_1: null,
             cultural_values_2: null,
             cultural_values_3: null,
             cultural_values_4: null,
             cultural_values_5: null,
             cultural_values_6: null,
-            fake_news_1: '',
-            fake_news_2: '',
-            fake_news_3: '',
-            fake_news_4: '',
-            fake_news_5: '',
-            fake_news_6: '',
+            fake_news_1: false,
+            fake_news_2: false,
+            fake_news_3: false,
+            fake_news_4: false,
+            fake_news_5: false,
+            fake_news_6: false,
+            current_date : '',
             feedback: [],
             news: {}
         }
@@ -41,123 +44,145 @@ class Game extends Component {
         if (!localStorage.usertoken)
             this.props.history.push(`/login`)
     }
+
+    async onSubmit() {
+        var game_data = {}
+        for (var i = 1; i <= 6; i++){
+            if (this.state["cultural_values_" + i.toString()] === null || this.state["cultural_values_" + i.toString()].length === 0){
+                alert("Choose at least one cultural values for news article of " + this.state.feedback[i-1].category)
+                return ;
+            }
+        }
+        for (var i=0;i<6;i++){
+            var ind = this.state.feedback[i].index
+            var cult = this.state["cultural_values_" + ind]
+            if(cult){
+                for(var j =0 ; j < cult.length; j++){
+                    cult[j] = cult[j].value
+                }
+            }
+            var sr = this.state.shared.includes(ind)
+            var srm = this.state.shared_with_media.includes(ind)
+            var obj = {
+                news_id : this.state.feedback[i].id,
+                time_without_media : this.state.time[i],
+                time_with_media : this.state.time_with_media[i],
+                share_without_media : sr,
+                share_with_media : srm,
+                fake_news: this.state["fake_news_" + ind],
+                cultural_values: cult
+            }
+            game_data[this.state.feedback[i].category] = obj
+        }
+        var detail = {
+            news : game_data
+        }
+        console.log(detail)
+        save_game(detail).then(res=>{
+            console.log(res)
+        })
+    }
+
     onCloseModal() {
         this.props.history.push(`/home`)
     }
 
     onShare() {
-        var title = this.state.news.title
         var shared_news = this.state.shared
-        shared_news.push(title)
-        console.log(shared_news)
+        shared_news.push(this.state.news.index)
         this.setState({ shared: shared_news })
         this.onNextModal()
     }
 
     onShare2() {
-        var title = this.state.news.title
         var shared_news = this.state.shared_with_media
-        shared_news.push(title)
-        console.log(shared_news)
+        shared_news.push(this.state.news.index)
         this.setState({ shared_with_media: shared_news })
         this.onNextModal()
     }
 
-
     onNextModal() {
         if (this.state.show === 0) {
-            this.setState({ show_headlines: true })
+            this.setState({ current_date: new Date(), show_headlines: true  })
             fetch_news({ category: 'sports' }).then(res => {
-                var content = {
-                    title: res.title,
-                    description: res.description,
-                    urlToImage: res.urlToImage,
-                    category: 'Sports',
-                    index: '1'
-                }
-                this.setState({ news: content })
+                var content = res
+                content.index = '1'
+                content.category = 'Sports'
                 var temp = this.state.feedback
                 temp.push(content)
-                this.setState({ feedback: temp })
+                this.setState({ news: content,  feedback: temp })
             })
         }
         if (this.state.show === 1) {
+            var time_arr = this.state.time
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time : time_arr})
             fetch_news({ category: 'entertainment' }).then(res => {
-                var content = {
-                    title: res.title,
-                    description: res.description,
-                    urlToImage: res.urlToImage,
-                    category: 'Entertainment',
-                    index: '2'
-                }
-                this.setState({ news: content })
+                var content = res
+                content.index = '2'
+                content.category = 'Entertainment'
                 var temp = this.state.feedback
                 temp.push(content)
-                this.setState({ feedback: temp })
+                this.setState({ news: content, feedback: temp })            
             })
         }
         if (this.state.show === 2) {
+            time_arr = this.state.time
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time: time_arr })
             fetch_news({ category: 'science' }).then(res => {
-                var content = {
-                    title: res.title,
-                    description: res.description,
-                    urlToImage: res.urlToImage,
-                    category: 'Education',
-                    index: '3'
-                }
-                this.setState({ news: content })
+                var content = res
+                content.index = '3'
+                content.category = 'Education'
                 var temp = this.state.feedback
                 temp.push(content)
-                this.setState({ feedback: temp })
+                this.setState({ news: content, feedback: temp })
             })
         }
         if (this.state.show === 3) {
+            time_arr = this.state.time
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time: time_arr })
             fetch_news({ category: 'technology' }).then(res => {
-                var content = {
-                    title: res.title,
-                    description: res.description,
-                    urlToImage: res.urlToImage,
-                    category: 'Technology',
-                    index: '4'
-                }
-                this.setState({ news: content })
+                var content = res
+                content.index = '4'
+                content.category = 'Technology'
                 var temp = this.state.feedback
                 temp.push(content)
-                this.setState({ feedback: temp })
+                this.setState({ news: content, feedback: temp })
             })
         }
         if (this.state.show === 4) {
-            fetch_news({ category: 'politics' }).then(res => {
-                var content = {
-                    title: res.title,
-                    description: res.description,
-                    urlToImage: res.urlToImage,
-                    category: 'Politics',
-                    index: '5'
-                }
-                this.setState({ news: content })
+            time_arr = this.state.time
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time: time_arr })
+            fetch_news({ category: 'nation' }).then(res => {
+                var content = res
+                content.index = '5'
+                content.category = 'Politics'
                 var temp = this.state.feedback
                 temp.push(content)
-                this.setState({ feedback: temp })
+                this.setState({ news: content, feedback: temp })
             })
         }
 
         if (this.state.show === 5) {
+            time_arr = this.state.time
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time: time_arr })
             fetch_news({ category: 'health' }).then(res => {
-                var content = {
-                    title: res.title,
-                    description: res.description,
-                    urlToImage: res.urlToImage,
-                    category: 'Health',
-                    index: '6'
-                }
-                this.setState({ news: content })
+                var content = res
+                content.index = '6'
+                content.category = 'Health'
                 var temp = this.state.feedback
                 temp.push(content)
-                this.setState({ feedback: temp })
+                this.setState({ news: content, feedback: temp })
             })
         }
         if (this.state.show === 6) {
+            time_arr = this.state.time
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time: time_arr })
             this.setState({ show_headlines: false })
             this.setState({ show_chart: true })
         }
@@ -165,27 +190,47 @@ class Game extends Component {
             this.setState({ show_chart: false })
         }
         if (this.state.show === 8) {
-            this.setState({ show_headlines2: true })
+            this.setState({ current_date: new Date(), show_headlines2: true })
             this.setState({ news: this.state.feedback[0] })
         }
         if (this.state.show === 9) {
+            time_arr = this.state.time_with_media
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time_with_media: time_arr })
             this.setState({ news: this.state.feedback[1] })
         }
         if (this.state.show === 10) {
+            time_arr = this.state.time_with_media
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time_with_media: time_arr })
             this.setState({ news: this.state.feedback[2] })
         }
         if (this.state.show === 11) {
+            time_arr = this.state.time_with_media
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time_with_media: time_arr })
             this.setState({ news: this.state.feedback[3] })
         }
         if (this.state.show === 12) {
+            time_arr = this.state.time_with_media
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time_with_media: time_arr })
             this.setState({ news: this.state.feedback[4] })
         }
         if (this.state.show === 13) {
+            time_arr = this.state.time_with_media
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time_with_media: time_arr })
             this.setState({ news: this.state.feedback[5] })
         }
         if (this.state.show === 14) {
+            time_arr = this.state.time_with_media
+            time_arr.push((new Date() - this.state.current_date) / 1000)
+            this.setState({ current_date: new Date(), time_with_media: time_arr })
             this.setState({ show_headlines2: false })
             this.setState({ show_chart2: true })
+            console.log(this.state.time_with_media)
+            console.log(this.state.shared_with_media)
         }
         if (this.state.show === 15) {
             this.setState({ show_chart2: false })
@@ -223,14 +268,14 @@ class Game extends Component {
             data: [{
                 type: "pie",
                 startAngle: 75,
-                toolTipContent: "<b>{label}</b>: {y}%",
+                toolTipContent: "<b>{label}</b>: {y}",
                 showInLegend: "true",
                 legendText: "{label}",
                 indexLabelFontSize: 16,
-                indexLabel: "{label} - {y}%",
+                indexLabel: "{label} - {y}",
                 dataPoints: [
                     { y: this.state.shared.length, label: "Shared" },
-                    { y: 6 - this.state.shared.length, label: "Non shared" }
+                    { y: 6- this.state.shared.length, label: "Non shared"}
                 ]
             }]
         }
@@ -243,11 +288,11 @@ class Game extends Component {
             data: [{
                 type: "pie",
                 startAngle: 75,
-                toolTipContent: "<b>{label}</b>: {y}%",
+                toolTipContent: "<b>{label}</b>: {y}",
                 showInLegend: "true",
                 legendText: "{label}",
                 indexLabelFontSize: 16,
-                indexLabel: "{label} - {y}%",
+                indexLabel: "{label} - {y}",
                 dataPoints: [
                     { y: this.state.shared_with_media.length, label: "Shared" },
                     { y: 6 - this.state.shared_with_media.length, label: "Non shared" }
@@ -321,7 +366,7 @@ class Game extends Component {
                                     <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Title</div>
                                     <div className="mb-2" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.title}</div>
                                     <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Description</div>
-                                    <div className="my-auto" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.description}</div>
+                                    <div className="my-auto" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.content}</div>
                                 </div>
                             ) : ''}
                     </div>
@@ -348,9 +393,9 @@ class Game extends Component {
                         {this.state.news ?
                             (
                                 <div className="container">
-                                    {   this.state.news.urlToImage ?
+                                    {   this.state.news.image ?
                                         (<div style={{ alignItems: "center" }}>
-                                            <img src={this.state.news.urlToImage} alt="news" style={{ maxWidth: "100%", height: "auto" }}></img>
+                                            <img src={this.state.news.image} alt="news" style={{ maxWidth: "100%", height: "auto" }}></img>
                                         </div>)
                                         : ''}
                                     <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Title</div>
@@ -427,42 +472,52 @@ class Game extends Component {
                                     <div style={{ fontSize: "18px" }}>
                                         {data.category}
                                     </div>
-                                    <div className="form-group my-3">
+                                    <div className="form-group mt-3 mb-2">
                                         <div >
-                                            <b>News Title</b>
+                                            <b>News Title:</b>
                                         </div>
                                         <div style={{ color: "grey", fontWeight: "600" }}>
                                             {data.title}
                                         </div>
                                     </div>
-                                    <div className="form-group my-3">
+                                    <div className="form-group mb-3">
+                                        {this.state.shared.includes(data.index) ? (<div>
+                                            Shared without media
+                                        </div>) :(<div>
+                                            Not shared without media
+                                        </div>)}
+                                        {this.state.shared_with_media.includes(data.index) ? (<div>
+                                            Shared with media
+                                        </div>) : (<div>
+                                            Not shared with media
+                                        </div>)}
+                                    </div>
+                                    <div className="form-check mb-1">
+                                        <input
+                                            type="checkbox"
+                                            className="form-check-input"
+                                            checked={this.state["fake_news_" + data.index]} 
+                                            onChange={() => this.setState({ ['fake_news_' + data.index]: !this.state["fake_news_" + data.index] }, console.log(this.state["fake_news_" + data.index]))}>
+                                        </input>
+                                        <label >
+                                            Will you mark this news fake?
+                                        </label>
+                                    </div>
+                                    <div className="form-group mb-3">
                                         <label >Involved cultural values*</label>
                                         <MultiSelect
                                             value={this.state['cultural_values_' + data.index]}
                                             onChange={(values) => this.setState({ ['cultural_values_' + data.index]: values })}
-                                            options={cultural_values_options} />
+                                            options={cultural_values_options}
+                                        />
                                     </div>
-                                    <div className="form-group my-3">
-                                        <label >Will you mark this news fake?</label>
-                                        <select 
-                                            className="form-control" 
-                                            name="fake_news" 
-                                            value={this.state["fake_news_" + data.index]} 
-                                            onChange={(e) => this.setState({ ['fake_news_' + data.index]: e.target.value })}>
-                                            <option value='' disabled></option>
-                                            <option value='yes'>Yes</option>
-                                            <option value='no'>No</option>
-                                        </select>
-                                    </div>
-                                    {data.cultral_values}
-                                    {data.fake_news}
                                 </div>
                             ))
                         }
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn btn-primary" onClick={this.onCloseModal}>
+                    <Button className="btn btn-primary" onClick={()=>this.onSubmit()}>
                         Submit
                     </Button>
                 </Modal.Footer>

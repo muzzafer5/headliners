@@ -19,3 +19,23 @@ export const fetch_news = details => {
       console.log(err)
     })
 } 
+
+export const save_game = details => {
+
+  var postData = details
+
+  let axiosConfig = {
+    headers: {
+      'Content-Type': 'application/json',
+      'AUTHORIZATION': localStorage.usertoken
+    }
+  }
+  return axios
+    .post('/api/game/create', postData, axiosConfig)
+    .then(response => {
+      return response.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+} 

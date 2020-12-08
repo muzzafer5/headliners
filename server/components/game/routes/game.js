@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
-var Fetch = require('../controllers/fetch')
+var CreateGame = require('../controllers/create')
 
 const RequireLogin = require('../../../middleware/require_login')
 
 router
-    .route('/fetch')
-    .post(RequireLogin, (req, res) => Fetch(req, res))
+    .route('/create')
+    .post(RequireLogin, (req, res) => CreateGame(req, res))
 
 module.exports = router

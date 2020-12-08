@@ -2,19 +2,22 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const NewsSchema = new Schema({
-    category : {
-        type : String,
-        required : true
+    category: {
+        type: String,
+        required: true
     },
     country_code: {
         type: String,
-        required : true
+        required: true
     },
-    lang_code : {
-        type : String,
-        required : true
+    lang_code: {
+        type: String,
+        required: true
     },
-    news : [
+    article: {
+        
+    },
+    users_involved : [
         
     ],
     created_at: {
@@ -23,5 +26,5 @@ const NewsSchema = new Schema({
     }
 })
 
-const News = mongoose.model("news", NewsSchema)
+const News = mongoose.model("allNews", NewsSchema)
 module.exports = News

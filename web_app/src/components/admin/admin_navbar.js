@@ -12,18 +12,20 @@ class AdminNavbar extends Component {
             <Navbar
                 className="px-5 navbar-dark bg-dark"
                 collapseOnSelect
-                expand="lg">
+                expand="lg"
+                style = {{height : "7vh"}}
+            >
                 <Navbar.Brand href="/">Headliners</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto"></Nav>
                     <Nav.Link
-                        className="btn btn-outline-light mx-2 my-1"
+                        className="btn btn-outline-light mx-2"
                         onClick={() => this.props.history.push('/admin/home')}>
                         Admin Home
                         </Nav.Link>
                     <Nav.Link
-                        className="btn btn-outline-light mx-2 my-1"
+                        className="btn btn-outline-light mx-2"
                         onClick={() => this.logOut()}>
                         Logout
                         </Nav.Link>

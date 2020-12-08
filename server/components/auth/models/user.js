@@ -27,9 +27,21 @@ const UserSchema = new Schema({
         type : Number,
         required : true
     },
+    language: {
+        type: String,
+        required: true
+    },
     country : {
         type : String,
         required : true
+    },
+    lang_code: {
+        type: String,
+        required: true
+    },
+    country_code: {
+        type: String,
+        required: true
     },
     cultural_values : [{
 
