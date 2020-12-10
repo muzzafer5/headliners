@@ -19,9 +19,11 @@ class Header extends Component {
     render() {
         return (
             <Navbar
-                className="px-5 navbar-dark bg-dark fixed-top"
+                className="px-5 navbar-dark bg-dark"
                 collapseOnSelect
-                expand="lg">
+                expand="lg"
+                style = {{height : "8vh"}}
+            >
                 <Navbar.Brand href="/">Headliners</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
@@ -29,7 +31,24 @@ class Header extends Component {
                     <Nav.Link
                         eventKey={1}
                         className="btn btn-outline-secondary mx-2 my-1"
-                        onClick={this.logOut}>Logout</Nav.Link>
+                        onClick={() => this.props.history.push('/user/game')}
+                    >
+                        Played games
+                    </Nav.Link>
+                    <Nav.Link
+                        eventKey={2}
+                        className="btn btn-outline-secondary mx-2 my-1"
+                        onClick={()=>this.props.history.push('/user/profile')}
+                    >
+                        Profile
+                    </Nav.Link>
+                    <Nav.Link
+                        eventKey={3}
+                        className="btn btn-outline-secondary mx-2 my-1"
+                        onClick={this.logOut}
+                    >
+                        Logout
+                    </Nav.Link>
                 </Navbar.Collapse>
             </Navbar>
         )

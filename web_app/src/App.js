@@ -9,6 +9,8 @@ import Signup from './components/auth/signup'
 import Home from './components/home/home'
 import Game from './components/game/game'
 import Admin from './components/admin/admin_auth'
+import Profile from './components/user/profile'
+import PlayedGame from './components/user/played_game';
 import AdminHome from './components/admin/admin_home'
 import AdminUsersData from './components/admin/models/admin_users'
 import AdminGameData from './components/admin/models/admin_game_data'
@@ -29,6 +31,8 @@ class App extends PureComponent {
           <Route exact path="/auth/login" component={Login} />
           <Route exact path="/auth/signup" component={Signup} />
           <ProtectedRoute exact path="/home" component={Home} />
+          <ProtectedRoute exact path="/user/profile" component={Profile} />
+          <ProtectedRoute exact path="/user/game" component={PlayedGame} />
           <Route exact path = "/game" component = {Game}/>
           <Route exact path = "/admin" component = {Admin} />
           <AdminRoute exact path="/admin/home" component={AdminHome} />

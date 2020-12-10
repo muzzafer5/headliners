@@ -45,6 +45,11 @@ class AdminCountryDistribution extends Component {
                     chartType="GeoChart"
                     data={this.state.geo_data}
                     rootProps={{ 'data-testid': '1' }}
+                    // options={{
+                    //     region: 'IE',
+                    //     displayMode: 'regions',
+                    //     resolution: 'provinces'
+                    // }}
                 />
             </div>
         )
