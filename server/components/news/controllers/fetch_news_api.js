@@ -3,7 +3,6 @@ const { newsApiKey2 } = require('../../../config/keys');
 const News = require('../models/news')
 
 function Fetch2(req, res) {
-    console.log("enter")
     News.findOne({ country: 'in', category: req.body.category }).then(result => {
         if (result) {
             var diff = Date.now() - result.created_at
@@ -18,7 +17,6 @@ function Fetch2(req, res) {
                     language: 'ar',
                     country: 'sa'
                 }).then(response => {
-                    console.log(response)
                     news = response.articles
                     var news_list = []
                     for (var i = 0; i < news.length; i++) {
@@ -53,7 +51,6 @@ function Fetch2(req, res) {
                 sz = sz * diff;
                 sz = sz / 60;
                 sz = Math.floor(sz)
-                //console.log(sz)
                 res.json(fetched_news[sz])
             }
         }

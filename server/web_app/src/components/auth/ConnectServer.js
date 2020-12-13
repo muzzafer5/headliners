@@ -3,7 +3,7 @@ import axios from 'axios'
 export const signup = newUser => {
   var postData = newUser
   return axios
-    .post('/api/auth/signup/', postData)
+    .post('/api/v1/auth/signup/', postData)
       .then(response => {
         return response.data
       })
@@ -16,7 +16,7 @@ export const signup = newUser => {
 export const login = user => {
   var postData = user
   return axios
-    .post('/api/auth/login', postData)
+    .post('/api/v1/auth/login', postData)
       .then(response => {
         return response.data
       })

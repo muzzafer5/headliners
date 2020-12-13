@@ -15,7 +15,7 @@ function Login(req,res) {
             _id: user._id,
           }
           let token = jwt.sign(payload, SECRET_KEY, {
-            expiresIn: 3600*24*30
+            expiresIn: 3600*24*180
           })
           res.json(token)
         } 

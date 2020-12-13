@@ -11,7 +11,7 @@ class Home extends Component {
     }
     componentDidMount() {
         if (!localStorage.usertoken)
-            this.props.history.push(`/login`)
+            this.props.history.push(`/auth/login`)
     }
     gameMode() {
         this.props.history.push('/game')
@@ -29,19 +29,18 @@ class Home extends Component {
 
         return (
             <div style={backgroundStyle} >
-                <div style={{ paddingLeft: "100px", paddingTop: "100px" }}>
+                <div style={{ paddingLeft: "10vw", paddingTop: "20vh" }}>
                     <h1 style={{ fontSize: "45px" }}>
                         Welcome to the Headliners.
                     </h1>
-                    <div className="form-inline md-form mr-auto" style={{ paddingTop: "40px", display : "flex"}}>
-                        <input className="form-control"
-                            style={{ width: "20vw", marginRight : "10px" }}
-                            type="text"
-                            name="topic"
-                            placeholder="Enter the prefered language.."
-                        />
+                    <div className="form-inline md-form mr-auto" style={{ paddingTop: "5vh", display : "flex"}}>
+                        <span
+                            style={{ color: "grey", fontSize: "18px", padding: "5px 3vw", border : "1px solid #d6d6d6", marginRight : "2vw", borderRadius : "5px"}}
+                        >
+                            Enter to the game
+                        </span>
                         <button className="btn btn-secondary"
-                            style={{ fontSize: "18px", padding : "5px 30px", border: "none", fontWeight: "500" }}
+                            style={{ fontSize: "18px", padding : "5px 3vw", border: "none", fontWeight: "500" }}
                             onClick={this.gameMode}
                         >
                             Start

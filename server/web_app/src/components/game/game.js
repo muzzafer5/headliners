@@ -15,6 +15,7 @@ class Game extends Component {
             show_chart: false,
             show_chart2: false,
             show_feadback: false,
+            loading : true,
             shared: [],
             shared_with_media: [],
             time: [],
@@ -33,7 +34,7 @@ class Game extends Component {
             fake_news_6: false,
             current_date : '',
             feedback: [],
-            news: {}
+            news: null
         }
         this.onCloseModal = this.onCloseModal.bind(this)
         this.onNextModal = this.onNextModal.bind(this)
@@ -77,9 +78,8 @@ class Game extends Component {
         var detail = {
             news : game_data
         }
-        console.log(detail)
         save_game(detail).then(res=>{
-            console.log(res)
+            this.props.history.push(`/home`)
         })
     }
 
@@ -105,12 +105,14 @@ class Game extends Component {
         if (this.state.show === 0) {
             this.setState({ current_date: new Date(), show_headlines: true  })
             fetch_news({ category: 'sports' }).then(res => {
-                var content = res
-                content.index = '1'
-                content.category = 'Sports'
-                var temp = this.state.feedback
-                temp.push(content)
-                this.setState({ news: content,  feedback: temp })
+                if(res){
+                    var content = res
+                    content.index = '1'
+                    content.category = 'Sports'
+                    var temp = this.state.feedback
+                    temp.push(content)
+                    this.setState({ news: content,  feedback: temp })
+                }
             })
         }
         if (this.state.show === 1) {
@@ -197,31 +199,31 @@ class Game extends Component {
             time_arr = this.state.time_with_media
             time_arr.push((new Date() - this.state.current_date) / 1000)
             this.setState({ current_date: new Date(), time_with_media: time_arr })
-            this.setState({ news: this.state.feedback[1] })
+            this.setState({ news: this.state.feedback[1], loading: true })
         }
         if (this.state.show === 10) {
             time_arr = this.state.time_with_media
             time_arr.push((new Date() - this.state.current_date) / 1000)
             this.setState({ current_date: new Date(), time_with_media: time_arr })
-            this.setState({ news: this.state.feedback[2] })
+            this.setState({ news: this.state.feedback[2], loading: true })
         }
         if (this.state.show === 11) {
             time_arr = this.state.time_with_media
             time_arr.push((new Date() - this.state.current_date) / 1000)
             this.setState({ current_date: new Date(), time_with_media: time_arr })
-            this.setState({ news: this.state.feedback[3] })
+            this.setState({ news: this.state.feedback[3], loading: true })
         }
         if (this.state.show === 12) {
             time_arr = this.state.time_with_media
             time_arr.push((new Date() - this.state.current_date) / 1000)
             this.setState({ current_date: new Date(), time_with_media: time_arr })
-            this.setState({ news: this.state.feedback[4] })
+            this.setState({ news: this.state.feedback[4], loading: true })
         }
         if (this.state.show === 13) {
             time_arr = this.state.time_with_media
             time_arr.push((new Date() - this.state.current_date) / 1000)
             this.setState({ current_date: new Date(), time_with_media: time_arr })
-            this.setState({ news: this.state.feedback[5] })
+            this.setState({ news: this.state.feedback[5], loading: true })
         }
         if (this.state.show === 14) {
             time_arr = this.state.time_with_media
@@ -229,8 +231,6 @@ class Game extends Component {
             this.setState({ current_date: new Date(), time_with_media: time_arr })
             this.setState({ show_headlines2: false })
             this.setState({ show_chart2: true })
-            console.log(this.state.time_with_media)
-            console.log(this.state.shared_with_media)
         }
         if (this.state.show === 15) {
             this.setState({ show_chart2: false })
@@ -356,20 +356,25 @@ class Game extends Component {
         const headline = (
             <Modal centered show={this.state.show_headlines} animation={true} style={{ fontFamily: "Lato" }}>
                 <Modal.Header closeButton onClick={this.onCloseModal}>
-                    <Modal.Title>{this.state.news.category}</Modal.Title>
+                    <Modal.Title>{this.state.news? (<div>{this.state.news.category}</div>) : ''}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
-                    <div>
-                        {this.state.news ?
-                            (
-                                <div className="container">
-                                    <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Title</div>
-                                    <div className="mb-2" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.title}</div>
-                                    <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Description</div>
-                                    <div className="my-auto" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.content}</div>
+                    {this.state.news ? (
+                        <div>
+                            <div className="container">
+                                <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Title</div>
+                                <div className="mb-2" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.title}</div>
+                                <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Description</div>
+                                <div className="my-auto" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.description}</div>
+                            </div>
+                        </div>
+                        ) : (
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                <div style={{ fontSize: "50px", color: "grey" }}>
+                                    <i className="fa fa-spinner fa-pulse" aria-hidden="true"></i>
                                 </div>
-                            ) : ''}
-                    </div>
+                            </div>)
+                    }
                 </Modal.Body>
                 <Modal.Footer>
                     <div style = {{width : "100%"}}>
@@ -386,7 +391,7 @@ class Game extends Component {
         const headline2 = (
             <Modal centered show={this.state.show_headlines2} animation={true} style={{ fontFamily: "Lato" }}>
                 <Modal.Header closeButton onClick={this.onCloseModal}>
-                    <Modal.Title>{this.state.news.category}</Modal.Title>
+                    <Modal.Title>{this.state.news ? (<div>{this.state.news.category}</div>) : ''}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body >
                     <div>
@@ -395,14 +400,23 @@ class Game extends Component {
                                 <div className="container">
                                     {   this.state.news.image ?
                                         (<div style={{ alignItems: "center" }}>
-                                            <img src={this.state.news.image} alt="news" style={{ maxWidth: "100%", height: "auto" }}></img>
+                                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                                <div style={{ fontSize: "50px", color: "grey", display: this.state.loading ? "block" : "none"  }}>
+                                                        <i className="fa fa-spinner fa-pulse" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                                <img 
+                                                    src={this.state.news.image} 
+                                                    alt="news" 
+                                                    style={{ maxWidth: "100%", height: "auto", display : this.state.loading ? "none" : "block" }}
+                                                    onLoad={() => this.setState({loading : false})}
+                                                ></img>
                                         </div>)
                                         : ''}
                                     <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Title</div>
                                     <div className="mb-2" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.title}</div>
                                     <div className="my-2" style={{ fontSize: "large", fontWeight: "bold" }}>Description</div>
                                     <div className="my-auto" style={{ fontSize: "small", textAlign: "justify" }}>{this.state.news.description}</div>
-
                                 </div>
                             ) : ''}
                     </div>
@@ -454,7 +468,7 @@ class Game extends Component {
             </Modal>
         )
         const feedback = (
-            <Modal centered show={this.state.show_feadback} animation={false}>
+            <Modal size = "lg" centered show={this.state.show_feadback} animation={false}>
                 <Modal.Header closeButton onClick={this.onCloseModal}>
                     <Modal.Title>Feedback</Modal.Title>
                 </Modal.Header>
@@ -476,20 +490,20 @@ class Game extends Component {
                                         <div >
                                             <b>News Title:</b>
                                         </div>
-                                        <div style={{ color: "grey", fontWeight: "600" }}>
+                                        <div style={{ color: "grey", fontWeight: "500" }}>
                                             {data.title}
                                         </div>
                                     </div>
-                                    <div className="form-group mb-3">
+                                    <div className="form-group mb-3" style = {{fontFamily : "serif"}}>
                                         {this.state.shared.includes(data.index) ? (<div>
-                                            Shared without media
+                                            ~ Shared without media
                                         </div>) :(<div>
-                                            Not shared without media
+                                            ~ Not shared without media
                                         </div>)}
                                         {this.state.shared_with_media.includes(data.index) ? (<div>
-                                            Shared with media
+                                            ~ Shared with media
                                         </div>) : (<div>
-                                            Not shared with media
+                                            ~ Not shared with media
                                         </div>)}
                                     </div>
                                     <div className="form-check mb-1">
@@ -497,7 +511,7 @@ class Game extends Component {
                                             type="checkbox"
                                             className="form-check-input"
                                             checked={this.state["fake_news_" + data.index]} 
-                                            onChange={() => this.setState({ ['fake_news_' + data.index]: !this.state["fake_news_" + data.index] }, console.log(this.state["fake_news_" + data.index]))}>
+                                            onChange={() => this.setState({ ['fake_news_' + data.index]: !this.state["fake_news_" + data.index] })}>
                                         </input>
                                         <label >
                                             Will you mark this news fake?

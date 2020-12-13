@@ -23,5 +23,7 @@ const NewsSchema = new Schema({
     }
 })
 
+NewsSchema.index({ 'country_code': 1, 'lang_code': 1, 'category' : 1 })
+
 const News = mongoose.model("news", NewsSchema)
 module.exports = News

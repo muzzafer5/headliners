@@ -37,7 +37,7 @@ class AdminUsers extends Component {
                         activateDownloadButton={true}
                         pagination = {10}
                         caseInsensitive = {true}
-                        filename = "headliners.csv"
+                        filename = "users.csv"
                     />
                 </div>
             </div>

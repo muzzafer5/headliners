@@ -11,7 +11,7 @@ export const fetch_news = details => {
     }
   }
   return axios
-    .post('/api/news/fetch', postData, axiosConfig)
+    .post('/api/v1/news/fetch', postData, axiosConfig)
     .then(response => {
       return response.data
     })
@@ -31,7 +31,7 @@ export const save_game = details => {
     }
   }
   return axios
-    .post('/api/game/create', postData, axiosConfig)
+    .post('/api/v1/game/create', postData, axiosConfig)
     .then(response => {
       return response.data
     })

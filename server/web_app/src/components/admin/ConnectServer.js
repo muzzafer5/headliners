@@ -10,7 +10,7 @@ export const fetch_users = () => {
     }
 
     return axios
-        .get('/api/admin/fetch/user',axiosConfig)
+        .get('/api/v1/admin/fetch/user',axiosConfig)
         .then(response => {
             return response.data
         })
@@ -23,7 +23,7 @@ export const admin_login = details =>{
     var postData = details
 
     return axios
-        .post('/api/admin/login', postData)
+        .post('/api/v1/admin/login', postData)
         .then(response => {
             return response.data
         })
@@ -43,7 +43,7 @@ export const fetch_games = () => {
     }
 
     return axios
-        .get('/api/admin/fetch/game', axiosConfig)
+        .get('/api/v1/admin/fetch/game', axiosConfig)
         .then(response => {
             return response.data
         })
@@ -52,7 +52,7 @@ export const fetch_games = () => {
         })
 } 
 
-export const fetch_games_detailed = () => {
+export const fetch_games_detailed = (details) => {
 
     let axiosConfig = {
         headers: {
@@ -62,7 +62,7 @@ export const fetch_games_detailed = () => {
     }
 
     return axios
-        .get('/api/admin/fetch/game/detailed', axiosConfig)
+        .get('/api/v1/admin/fetch/game/detailed/' + (details.skip) + '/' + details.limit, axiosConfig)
         .then(response => {
             return response.data
         })
@@ -81,7 +81,26 @@ export const fetch_news = () => {
     }
 
     return axios
-        .get('/api/admin/fetch/news', axiosConfig)
+        .get('/api/v1/admin/fetch/news', axiosConfig)
+        .then(response => {
+            return response.data
+        })
+        .catch(err => {
+            console.log(err)
+        })
+} 
+
+export const fetch_news_detailed = (details) => {
+
+    let axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json',
+            'AUTHORIZATION': localStorage.admintoken
+        }
+    }
+
+    return axios
+        .get('/api/v1/admin/fetch/news/detailed/' + (details.skip) + '/' + details.limit, axiosConfig)
         .then(response => {
             return response.data
         })

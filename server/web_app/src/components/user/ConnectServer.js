@@ -9,7 +9,7 @@ export const fetch_profile = () => {
     }
   }
   return axios
-    .get('/api/user/profile', axiosConfig)
+    .get('/api/v1/user/profile', axiosConfig)
     .then(response => {
       return response.data
     })
@@ -28,7 +28,7 @@ export const fetch_played_games = () => {
     }
   }
   return axios
-    .get('/api/user/games', axiosConfig)
+    .get('/api/v1/user/games', axiosConfig)
     .then(response => {
       return response.data
     })

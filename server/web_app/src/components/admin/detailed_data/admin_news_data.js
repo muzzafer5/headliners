@@ -1,29 +1,29 @@
 import React, { Component } from 'react'
-import { fetch_games_detailed } from '../ConnectServer'
+import { fetch_news_detailed } from '../ConnectServer'
 import ReactJson from 'react-json-view'
 
-class AdminGenderDistribution extends Component {
+class AdminNewsDistribution extends Component {
 
     constructor() {
         super()
         this.state = {
             errors: {},
-            total_items : '',
-            items : 10,
+            news: null,
             page : 1,
-            game_data : null
+            items : 10,
+            total_items : ''
         }
     }
-
+ 
     componentDidMount() {
-        this.onCallFetchGames()
+        this.onCallFetchNews()
     }
 
-    onCallFetchGames(){
-        this.setState({game_data : null})
-        fetch_games_detailed({ skip: (this.state.page - 1) * this.state.items, limit: this.state.items }).then(res => {
+    onCallFetchNews(){
+        this.setState({news : null})
+        fetch_news_detailed({ skip: (this.state.page - 1) * this.state.items, limit: this.state.items }).then(res => {
             if (res) {
-                this.setState({ game_data: res.games, total_items: res.count })
+                this.setState({ news: res.news, total_items: res.count })
             }
             else {
                 this.props.history.push('/admin/home')
@@ -31,24 +31,24 @@ class AdminGenderDistribution extends Component {
         })
     }
 
-    onDownload(){
-            const fileData = JSON.stringify(this.state.game_data);
-            const blob = new Blob([fileData], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.download = 'games.json';
-            link.href = url;
-            link.click();
+    onDownload() {
+        const fileData = JSON.stringify(this.state.news);
+        const blob = new Blob([fileData], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = 'news.json';
+        link.href = url;
+        link.click();
     }
 
     onDownloadAll() {
-        fetch_games_detailed({ skip: 0, limit: this.state.total_items }).then(res => {
+        fetch_news_detailed({ skip: 0 , limit: this.state.total_items }).then(res => {
             if (res) {
-                const fileData = JSON.stringify(res.games);
+                const fileData = JSON.stringify(res.news);
                 const blob = new Blob([fileData], { type: "application/json" });
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
-                link.download = 'allGames.json';
+                link.download = 'allNews.json';
                 link.href = url;
                 link.click();
             }
@@ -60,32 +60,32 @@ class AdminGenderDistribution extends Component {
 
     render() {
         return (
-            <div style = {{height : "92vh", overflowY : "scroll"}}>
-                {this.state.game_data ? (
+            <div style={{ height: "92vh", overflowY: "scroll" }}>
+                {this.state.news ? (
                     <div>
-                        <h1 className="text-center my-3">Game played - {this.state.total_items} </h1>
+                        <h1 className="text-center my-3">News - ( {this.state.total_items} )</h1>
                         <div className="container">
                             <button onClick={() => this.onDownload()} className="btn btn-outline-secondary px-3" >
-                                <i className="fa fa-download" style={{ color: "green" }}></i> Download current page games
+                                <i className="fa fa-download" style={{ color: "green" }}></i> Download current page news
                             </button>
-                            <button onClick={() => this.onDownloadAll()} style={{ float: "right" }} className="btn btn-outline-secondary px-3" >
-                                <i className="fa fa-download" style={{ color: "green" }}></i> Download all games
+                            <button onClick={() => this.onDownloadAll()} style = {{float : "right"}} className="btn btn-outline-secondary px-3" >
+                                <i className="fa fa-download" style={{ color: "green" }}></i> Download all news
                             </button>
-                            {this.state.game_data.map((data, index) => (
+                            {this.state.news.map((data, index) => (
                                 <div style={{ margin: "20px 0px" }} key={index}>
                                     <ReactJson
                                         src={data}
                                         theme="colors"
-                                        name={"game " + (index + (this.state.page - 1) * this.state.items + 1).toString()}
+                                        name={"News " + ((this.state.page - 1) * this.state.items + index + 1).toString()}
                                         enableClipboard={false}
                                         displayObjectSize={false}
                                         displayDataTypes={false}
                                         indentWidth={10}
-                                        collapsed={2}
+                                        collapsed={3}
                                         style={{ padding: "20px", borderRadius: "10px", border: "1px solid #e3e3e3" }}
                                     />
                                 </div>
-                            ))}                            
+                            ))}
                             <div className="pagination"
                                 style={{
                                     padding: "3px 10px",
@@ -110,25 +110,25 @@ class AdminGenderDistribution extends Component {
                                 </div>
                                 <div
                                     style={{ cursor: "pointer", padding: "5px" }}
-                                    onClick={() => this.setState({ page: 1 }, () => this.onCallFetchGames())}
+                                    onClick={() => this.setState({ page: 1 }, () => this.onCallFetchNews())}
                                 >
                                     Go to First page
                             </div>
                                 <div
                                     style={{ cursor: "pointer", padding: "5px" }}
-                                    onClick={() => this.setState({ page: Math.min(this.state.page + 1, Math.ceil(this.state.total_items / this.state.items)) }, () => this.onCallFetchGames())}
+                                    onClick={() => this.setState({ page: Math.min(this.state.page + 1, Math.ceil(this.state.total_items / this.state.items)) }, () => this.onCallFetchNews())}
                                 >
                                     Next page
                             </div>
                                 <div
                                     style={{ cursor: "pointer", padding: "5px" }}
-                                    onClick={() => this.setState({ page: Math.max(this.state.page, 2) - 1 }, () => this.onCallFetchGames())}
+                                    onClick={() => this.setState({ page: Math.max(this.state.page, 2) - 1 }, () => this.onCallFetchNews())}
                                 >
                                     Prev page
                             </div>
                                 <div
                                     style={{ cursor: "pointer", padding: "5px" }}
-                                    onClick={() => this.setState({ page: Math.ceil(this.state.total_items / this.state.items) }, () => this.onCallFetchGames())}
+                                    onClick={() => this.setState({ page: Math.ceil(this.state.total_items / this.state.items) }, () => this.onCallFetchNews())}
                                 >
                                     Last page
                             </div>
@@ -146,7 +146,7 @@ class AdminGenderDistribution extends Component {
                                     />
                                     <span
                                         style={{ cursor: "pointer", marginLeft: "10px" }}
-                                        onClick={() => this.setState({ page: 1 }, () => this.onCallFetchGames())}
+                                        onClick={() => this.setState({ page: 1 }, () => this.onCallFetchNews())}
                                     > Go
                                 </span>
                                 </div>
@@ -160,9 +160,10 @@ class AdminGenderDistribution extends Component {
                         </div>
                     </div>
                 }
+
             </div>
         )
     }
 }
 
-export default AdminGenderDistribution
+export default AdminNewsDistribution

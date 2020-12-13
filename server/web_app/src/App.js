@@ -19,8 +19,9 @@ import AdminAgeDistribution from './components/admin/visualisations/admin_age_di
 import AdminGenderDistribution from './components/admin/visualisations/admin_gender_distribution'
 import AdminCountryDistribution from './components/admin/visualisations/admin_country_distribution'
 import AdminLanguageDistribution from './components/admin/visualisations/admin_language_distribution'
-import AdminDetailedUsersData from './components/admin/detailed_data/admin_users';
+import AdminDetailedUsersData from './components/admin/detailed_data/admin_users'
 import AdminDetailedGameData from './components/admin/detailed_data/admin_game_data'
+import AdminDetailedNewsData from './components/admin/detailed_data/admin_news_data'
 
 class App extends PureComponent {
   render() {
@@ -41,6 +42,7 @@ class App extends PureComponent {
           <AdminRoute exact path="/admin/news_data" component={AdminNewsData} />
           <AdminRoute exact path="/admin/users/detailed" component={AdminDetailedUsersData} />
           <AdminRoute exact path="/admin/game_data/detailed" component={AdminDetailedGameData} />
+          <AdminRoute exact path="/admin/news_data/detailed" component={AdminDetailedNewsData} />
           <AdminRoute exact path="/admin/age_distribution" component={AdminAgeDistribution} />
           <AdminRoute exact path="/admin/gender_distribution" component={AdminGenderDistribution} />
           <AdminRoute exact path="/admin/country_distribution" component={AdminCountryDistribution} />

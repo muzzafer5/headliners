@@ -28,7 +28,6 @@ class AdminLanguageDistribution extends Component {
                 for (var i = 0; i < lang.length; i++) {
                     lang_data.push(lang_map.get(lang[i]))
                 }
-                console.log(lang_data)
                 this.setState({ data: lang_data })
             }
             else {

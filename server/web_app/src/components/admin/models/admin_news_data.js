@@ -9,14 +9,13 @@ class AdminGenderDistribution extends Component {
         this.state = {
             errors: {},
             news_data: [],
-            headers: ["category","country_code", "lang_code", "article"]
+            headers: ["category", "country_code", "lang_code","article"]
         }
     }
 
     componentDidMount() {
         fetch_news().then(async res => {
             if (res) {
-                console.log(res)
                 for (var i = 0; i < res.length; i++) {
                     res[i].article = JSON.stringify(res[i].article)
                 }
@@ -39,9 +38,9 @@ class AdminGenderDistribution extends Component {
                         minHeight={0}
                         maxHeight={400}
                         activateDownloadButton={true}
-                        pagination={50}
+                        pagination={10}
                         caseInsensitive={true}
-                        filename="headliners_game.csv"
+                        filename="news.csv"
                     />
                 </div>
             </div>

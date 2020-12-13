@@ -16,11 +16,11 @@ const admin = require("./components/admin/routes/admin")
 const game = require("./components/game/routes/game")
 const user = require("./components/user/routes/user")
 
-app.use("/api/auth", auth)
-app.use("/api/news", news)
-app.use("/api/admin",admin)
-app.use("/api/game", game)
-app.use("/api/user", user)
+app.use("/api/v1/auth", auth)
+app.use("/api/v1/news", news)
+app.use("/api/v1/admin",admin)
+app.use("/api/v1/game", game)
+app.use("/api/v1/user", user)
 
 module.exports = app
 

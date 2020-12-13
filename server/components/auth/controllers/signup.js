@@ -27,8 +27,6 @@ function Signup(req,res) {
     cultural_values: req.body.cultural_values
   }
 
-  console.log(userData)
-
   User.findOne({
     username: req.body.username
   }) 

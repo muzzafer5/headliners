@@ -42,7 +42,7 @@ class AdminGenderDistribution extends Component {
                         activateDownloadButton={true}
                         pagination={10}
                         caseInsensitive={true}
-                        filename="headliners_game.csv"
+                        filename="games.csv"
                     />
                 </div>
             </div>

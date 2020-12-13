@@ -82,7 +82,7 @@ class AdminHome extends Component {
                             </button>
                             <button
                                 className="btn btn-info mb-1"
-                                onClick={() => this.props.history.push('/admin/news_data')}>
+                                onClick={() => this.props.history.push('/admin/news_data/detailed')}>
                                 News data
                             </button>
                         </div>

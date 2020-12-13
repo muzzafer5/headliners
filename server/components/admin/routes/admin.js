@@ -10,6 +10,7 @@ const FetchNews = require('../controllers/fetch_news')
 var RequireAdminLogin = require('../../../middleware/require_admin_login')
 
 const FetchGameDetailed = require('../controllers/fetch_game_detailed')
+const FetchNewsDetailed = require('../controllers/fetch_news_detailed')
 
 router
     .route('/fetch/user')
@@ -20,12 +21,16 @@ router
     .get(RequireAdminLogin, (req, res) => FetchGame(req, res))
 
 router
-    .route('/fetch/game/detailed')
+    .route('/fetch/game/detailed/:skip/:limit')
     .get(RequireAdminLogin, (req, res) => FetchGameDetailed(req, res))
 
 router
     .route('/fetch/news')
     .get(RequireAdminLogin, (req, res) => FetchNews(req, res))
+
+router
+    .route('/fetch/news/detailed/:skip/:limit')
+    .get(RequireAdminLogin, (req, res) => FetchNewsDetailed(req, res))
 
 router
     .route('/login')
