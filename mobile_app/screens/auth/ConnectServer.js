@@ -1,6 +1,6 @@
 
 export const login = user => {
-    return fetch("https://iitj-app.herokuapp.com/auths/login", {
+    return fetch("https://headlinerss.herokuapp.com/api/v1/auth/login", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -16,7 +16,7 @@ export const login = user => {
 }
 
 export const signup = newUser => {
-    return fetch("https://iitj-app.herokuapp.com/auths/signup", {
+    return fetch("https://headlinerss.herokuapp.com/api/v1/auth/signup", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

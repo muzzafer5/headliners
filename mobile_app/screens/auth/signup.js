@@ -35,6 +35,7 @@ class Signup extends Component {
             country: '',
             profession: '',
             gender: '',
+            language : '',
             age: '',
             cultural_values: [],
             agree : false,
@@ -43,6 +44,17 @@ class Signup extends Component {
     }
 
     async onSubmit() {
+        const newUser = {
+            username: this.state.username,
+            password: this.state.password,
+            country: this.state.country,
+            profession: this.state.profession,
+            gender: this.state.gender,
+            language: this.state.language,
+            age: parseInt(this.state.age),
+            cultural_values: this.state.cultural_values
+        }
+        console.log(newUser)
         if(this.state.username === ''){
             this.setState({empty : 'username'})
             return ;
@@ -57,6 +69,10 @@ class Signup extends Component {
         }
         if (this.state.gender === '') {
             this.setState({ empty: 'gender' })
+            return;
+        }
+        if (this.state.language === '') {
+            this.setState({ empty: 'language' })
             return;
         }
         if (this.state.country === '') {
@@ -75,16 +91,7 @@ class Signup extends Component {
             this.setState({ empty: 'agree' })
             return;         
         }
-        const newUser = {
-            username: this.state.username,
-            password: this.state.password,
-            country: this.state.country,
-            profession : this.state.profession,
-            gender : this.state.gender,
-            age : this.state.age,
-            cultural_values : this.state.cultural_values
-        }
-        console.log(newUser)
+
 
         signup(newUser).then(async (data) => {
             try {
@@ -179,11 +186,50 @@ class Signup extends Component {
                                 onValueChange={(value) => this.setState({ gender: value }, this.setState({ empty: '' }))}
                                 items={[
                                     { label: 'Select..', value: '', color: "#dedede" },
-                                    { label: 'Male', value: 'male', color: "grey" },
-                                    { label: 'Female', value: 'female', color: "grey" }
+                                    { label: 'Male', value: 'Male', color: "grey" },
+                                    { label: 'Female', value: 'Female', color: "grey" }
                                 ]}
                                 placeholder={{}}
                                 value={this.state.gender}
+                            />
+                        </View>
+                        <Text
+                            style={styles.textLabel}
+                        >
+                            Language <Text style={{ color: "grey" }}>*</Text>
+                        </Text>
+                        <View
+                            style={[styles.pickerInput, { borderColor: this.state.empty === 'language' ? 'red' : '#e8e8e8' }]}
+                        >
+                            <RNPickerSelect
+                                onValueChange={(value) => this.setState({ language: value }, this.setState({ empty: '' }))}
+                                items={[
+                                    { label: 'Select..', value: '', color: "#dedede" },
+                                    { label: 'Arabic', value: 'Arabic', color: 'grey' },
+                                    { label: 'German', value: 'German', color: 'grey' },
+                                    { label: 'Greek', value: 'Greek', color: 'grey' },
+                                    { label: 'English', value: 'English', color: 'grey' },
+                                    { label: 'Spanish', value: 'Spanish', color: 'grey' },
+                                    { label: 'French', value: 'French', color: 'grey' },
+                                    { label: 'Hebrew', value: 'Hebrew', color: 'grey' },
+                                    { label: 'Hindi', value: 'Hindi', color: 'grey' },
+                                    { label: 'Italian', value: 'Italian', color: 'grey' },
+                                    { label: 'Japanese', value: 'Japanese', color: 'grey' },
+                                    { label: 'Malayalam', value: 'Malayalam', color: 'grey' },
+                                    { label: 'Marathi', value: 'Marathi', color: 'grey' },
+                                    { label: 'Dutch', value: 'Dutch', color: 'grey' },
+                                    { label: 'Norwegian', value: 'Norwegian', color: 'grey' },
+                                    { label: 'Portuguese', value: 'Portuguese', color: 'grey' },
+                                    { label: 'Romanian', value: 'Romanian', color: 'grey' },
+                                    { label: 'Russian', value: 'Russian', color: 'grey' },
+                                    { label: 'Swedish', value: 'Swedish', color: 'grey' },
+                                    { label: 'Tamil', value: 'Tamil', color: 'grey' },
+                                    { label: 'Telugu', value: 'Telugu', color: 'grey' },
+                                    { label: 'Ukrainian', value: 'Ukrainian', color: 'grey' },
+                                    { label: 'Chinese', value: 'Chinese', color: 'grey' },
+                                ]}
+                                placeholder={{}}
+                                value={this.state.language}
                             />
                         </View>
                         <Text 
@@ -552,7 +598,7 @@ class Signup extends Component {
                                 marginTop: 25,
                                 elevation: 3
                             }}
-                            onPress={() => this.onSubmit()}
+                            onPress ={() => this.onSubmit()}
                         >
                             <Text style={{ fontSize: 18, color: "white" }}>Signup</Text>
                         </TouchableOpacity>

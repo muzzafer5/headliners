@@ -1,4 +1,4 @@
-package com.mobile_app;
+package com.mobile_app_headliners;
 
 import android.app.Application;
 import android.content.Context;

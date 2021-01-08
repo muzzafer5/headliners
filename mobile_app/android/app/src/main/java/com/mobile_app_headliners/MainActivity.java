@@ -1,4 +1,4 @@
-package com.mobile_app;
+package com.mobile_app_headliners;
 
 import com.facebook.react.ReactActivity;
 

@@ -16,7 +16,6 @@ function Signup(req,res) {
   const userData = {
     username: req.body.username,
     password: req.body.password,
-    gender: req.body.gender,
     profession : req.body.profession,
     country : req.body.country,
     age : req.body.age,
